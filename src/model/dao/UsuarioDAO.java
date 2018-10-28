@@ -7,16 +7,11 @@ package model.dao;
 
 import facebookbd.ConnectionFactory;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.bean.Usuario;
 
@@ -52,8 +47,8 @@ public class UsuarioDAO {
     }
     
     public List<Usuario> read(){
-    
         Connection con = ConnectionFactory.getConnection();
+
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
@@ -82,6 +77,7 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         
-        return(usuarios); 
+        return usuarios; 
     }
+    
 }

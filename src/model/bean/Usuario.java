@@ -12,7 +12,6 @@ import java.util.Date;
  * @author Izaura
  */
 public class Usuario {
-
     private int id_usuario;
     private String nome;
     private String data_nascimento;
@@ -57,7 +56,6 @@ public class Usuario {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-	
 
     public String getSenha() {
         return senha;
