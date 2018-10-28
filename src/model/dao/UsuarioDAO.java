@@ -55,13 +55,13 @@ public class UsuarioDAO {
         List<Usuario> usuarios = new ArrayList<>();
             
         try {
-            stmt = con.prepareStatement("SELECT * FROM usuario");
+            stmt = con.prepareStatement("SELECT * FROM tb_usuario");
             rs = stmt.executeQuery(); 
             
             while(rs.next()){
                 Usuario usuario = new Usuario();
                 
-                usuario.setId_usuario(rs.getInt(""));
+                usuario.setId_usuario(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setData_nascimento(rs.getString("data_nascimento"));
                 usuario.setFoto(rs.getString("foto"));
@@ -80,4 +80,29 @@ public class UsuarioDAO {
         return usuarios; 
     }
     
+    public void update(Usuario usuario){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tb_usuario SET nome = ?, data_nascimento = ?, foto = ?, senha = ?, login = ?, visibilidade = ? WHERE id = ?");
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getData_nascimento());
+            stmt.setString(3, usuario.getFoto());
+            stmt.setString(4, usuario.getSenha());
+            stmt.setString(5, usuario.getLogin());
+            stmt.setString(6, usuario.getVisibilidade());
+            stmt.setInt(7, usuario.getId_usuario());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
 }

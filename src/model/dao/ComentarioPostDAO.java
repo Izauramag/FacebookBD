@@ -26,7 +26,7 @@ public class ComentarioPostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_grupo(imagem, conteudo) VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO tb_comentario_post(imagem, conteudo) VALUES(?,?)");
             stmt.setString(1, comentarioPost.getImagem());
             stmt.setString(2, comentarioPost.getConteudo());
             
@@ -71,5 +71,27 @@ public class ComentarioPostDAO {
         }
         
         return comentariosPost; 
+    }
+    
+    public void update(ComentarioPost comentarioPost){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tb_comentario_post SET imagem = ?, conteudo = ? WHERE id = ?");
+            stmt.setString(1, comentarioPost.getImagem());
+            stmt.setString(2, comentarioPost.getConteudo());
+            stmt.setInt(3, comentarioPost.getId_comentario()); //tirar duvida com icaro
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
     }
 }

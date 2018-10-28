@@ -73,4 +73,26 @@ public class PostDAO {
         
         return posts; 
     }
+    
+    public void update(Post post){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tb_post SET imagem = ?, conteudo = ?, visibilidade = ? WHERE id = ?");
+            stmt.setString(1, post.getImagem());
+            stmt.setString(2, post.getConteudo());
+            stmt.setString(3, post.getVisibilidade());
+            stmt.setInt(4, post.getId_post()); //perguntar a icaro
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
 }

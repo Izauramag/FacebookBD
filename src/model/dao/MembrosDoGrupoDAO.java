@@ -71,4 +71,25 @@ public class MembrosDoGrupoDAO {
         
         return membrosDosGrupos; 
     }
+    
+    public void update(MembrosDoGrupo membrosDoGrupo){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("INSERT INTO tb_membros_grupo administrador = ? WHERE id = ?");
+            stmt.setString(1, membrosDoGrupo.getAdmnistrador());
+            stmt.setInt(2, membrosDoGrupo.getId_memb_grup()); //perguntar a icaro
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao Atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
 }
