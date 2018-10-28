@@ -8,8 +8,12 @@ package model.dao;
 import facebookbd.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import model.bean.ComentarioPost;
 import model.bean.MembrosDoGrupo;
 
 /**
@@ -35,5 +39,36 @@ public class MembrosDoGrupoDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public List<MembrosDoGrupo> read(){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<MembrosDoGrupo> membrosDosGrupos = new ArrayList<>();
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_membros_grupo");
+            rs = stmt.executeQuery(); 
+            
+            while(rs.next()){
+                MembrosDoGrupo membrosDoGrupo = new MembrosDoGrupo();
+                
+                membrosDoGrupo.setId_membr_grup(rs.getInt("id_membr_grup"));
+                membrosDoGrupo.setId_grupo(rs.getInt("id_grupo"));
+                membrosDoGrupo.setId_usuario(rs.getInt("id_usuario"));
+                membrosDoGrupo.setAdmnistrador(rs.getString("administrador"));
+                membrosDosGrupos.add(membrosDoGrupo);    
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return membrosDosGrupos; 
     }
 }

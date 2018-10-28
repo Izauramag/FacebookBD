@@ -8,7 +8,10 @@ package model.dao;
 import facebookbd.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.bean.RespostaComent;
 
@@ -37,5 +40,37 @@ public class RespostaComentDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public List<RespostaComent> read(){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<RespostaComent> respostasComents = new ArrayList<>();
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_resposta_coment");
+            rs = stmt.executeQuery(); 
+            
+            while(rs.next()){
+                RespostaComent respostaComent = new RespostaComent();
+                
+                respostaComent.setId_resposta(rs.getInt("id_resposta"));
+                respostaComent.setId_comentario(rs.getInt("id_comentario"));
+                respostaComent.setId_user_resp(rs.getInt("id_user_respo"));
+                respostaComent.setImagem(rs.getString("imagem"));
+                respostaComent.setConteudo(rs.getString("conteudo"));
+                respostasComents.add(respostaComent);    
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return respostasComents; 
     }
 }

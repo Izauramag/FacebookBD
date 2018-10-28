@@ -8,7 +8,10 @@ package model.dao;
 import facebookbd.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.bean.Post;
 
@@ -37,5 +40,37 @@ public class PostDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public List<Post> read(){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Post> posts = new ArrayList<>();
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_post");
+            rs = stmt.executeQuery(); 
+            
+            while(rs.next()){
+                Post post = new Post();
+                
+                post.setId_post(rs.getInt("id_post"));
+                post.setId_user_post(rs.getInt("id_user_post"));
+                post.setImagem(rs.getString("imagem"));
+                post.setConteudo(rs.getString("conteudo"));
+                post.setVisibilidade(rs.getString("visibilidade"));
+                posts.add(post);    
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return posts; 
     }
 }

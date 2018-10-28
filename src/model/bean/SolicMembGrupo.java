@@ -13,7 +13,7 @@ public class SolicMembGrupo {
 
     private int id_solic_memb;
     private int id_grupo;
-    private int usuario;
+    private int id_usuario;
     
     //Gerando getters and setters
     
@@ -33,11 +33,11 @@ public class SolicMembGrupo {
         this.id_grupo = id_grupo;
     }
     
-    public int getUsuario() {
-        return usuario;
+    public int getId_usuario() {
+        return id_usuario;
     }
     
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 }
