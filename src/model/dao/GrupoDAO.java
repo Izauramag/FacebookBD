@@ -83,7 +83,7 @@ public class GrupoDAO {
             stmt.setString(1, grupo.getNome());
             stmt.setString(2, grupo.getImagem());
             stmt.setString(3, grupo.getConteudo());
-            stmt.setInt(4, grupo.getId_grupo());
+            stmt.setInt(4, grupo.getId_grupo()); //tirar duvida com icaro
             
             stmt.executeUpdate();
             
@@ -91,6 +91,26 @@ public class GrupoDAO {
                     
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao Atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    public void delete(Grupo grupo){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tb_grupo WHERE id = ?");
+            stmt.setInt(1, grupo.getId_grupo()); //tirar duvida com icaro
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }

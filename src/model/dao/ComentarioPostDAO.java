@@ -94,4 +94,24 @@ public class ComentarioPostDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
+    
+    public void delete(ComentarioPost comentarioPost){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tb_comentario_post WHERE id = ?");
+            stmt.setInt(1, comentarioPost.getId_comentario()); //tirar duvida com icaro
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
 }
