@@ -27,9 +27,9 @@ public class UsuarioDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_usuario(nome, data_nascimento, foto, senha, login, visibilidade) VALUES(?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO tb_usuario(nome, cidade, foto, senha, login, visibilidade) VALUES(?,?,?,?,?,?)");
             stmt.setString(1, usuario.getNome());
-            stmt.setString(2, usuario.getData_nascimento());
+            stmt.setString(2, usuario.getCidade());
             stmt.setString(3, usuario.getFoto());
             stmt.setString(4, usuario.getSenha());
             stmt.setString(5, usuario.getLogin());
@@ -63,7 +63,7 @@ public class UsuarioDAO {
                 
                 usuario.setId_usuario(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
-                usuario.setData_nascimento(rs.getString("data_nascimento"));
+                usuario.setCidade(rs.getString("cidade"));
                 usuario.setFoto(rs.getString("foto"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setLogin(rs.getString("login"));
@@ -86,9 +86,9 @@ public class UsuarioDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tb_usuario SET nome = ?, data_nascimento = ?, foto = ?, senha = ?, login = ?, visibilidade = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_usuario SET nome = ?, cidade = ?, foto = ?, senha = ?, login = ?, visibilidade = ? WHERE id = ?");
             stmt.setString(1, usuario.getNome());
-            stmt.setString(2, usuario.getData_nascimento());
+            stmt.setString(2, usuario.getCidade());
             stmt.setString(3, usuario.getFoto());
             stmt.setString(4, usuario.getSenha());
             stmt.setString(5, usuario.getLogin());
@@ -124,5 +124,33 @@ public class UsuarioDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public boolean checkLogin(String login, String senha){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean check = false;
+        
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_usuario WHERE login = ? AND senha = ?");
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+            
+            rs = stmt.executeQuery(); 
+            
+            if(rs.next()){
+                check = true; 
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check; 
     }
 }

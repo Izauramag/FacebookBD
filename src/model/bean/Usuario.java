@@ -14,15 +14,15 @@ import java.util.Date;
 public class Usuario {
     private int id_usuario;
     private String nome;
-    private String data_nascimento;
+    private String cidade;
     private String foto;
     private String senha;
     private String login;
     private char visibilidade;
 
-    public Usuario(String nome, String data_nascimento, String foto, String senha, String login, char visibilidade) {
+    public Usuario(String nome, String cidade, String foto, String senha, String login, char visibilidade) {
         this.nome = nome;
-        this.data_nascimento = data_nascimento;
+        this.cidade = cidade;
         this.foto = foto;
         this.senha = senha;
         this.login = login;
@@ -41,12 +41,12 @@ public class Usuario {
         this.id_usuario = id_usuario;
     }
 
-    public String getData_nascimento() {
-        return data_nascimento;
+    public String getCidade() {
+        return cidade;
     }
 
-    public void setData_nascimento(String data_nascimento) {
-        this.data_nascimento = data_nascimento;
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getFoto() {
@@ -88,4 +88,6 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    
+    
 }
