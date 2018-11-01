@@ -27,9 +27,12 @@ public class RespostaComentDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_resposta_coment(imagem, conteudo) VALUES(?,?)");
-            stmt.setString(1, respostaComent.getImagem());
-            stmt.setString(2, respostaComent.getConteudo());
+            stmt = con.prepareStatement("INSERT INTO tb_resposta_coment(id_comentario, id_user_resp, imagem, conteudo) VALUES(?, ?, ?, ?)");
+            
+            stmt.setInt(1, respostaComent.getId_comentario());
+            stmt.setInt(2, respostaComent.getId_user_resp());
+            stmt.setString(3, respostaComent.getImagem());
+            stmt.setString(4, respostaComent.getConteudo());
             
             stmt.executeUpdate();
             
@@ -79,18 +82,27 @@ public class RespostaComentDAO {
         
         PreparedStatement stmt = null;
 
+//        Columns:
+//            id_resposta int(11) AI PK 
+//            id_comentario int(11) 
+//            id_user_resp int(11) 
+//            imagem varchar(50) 
+//            conteudo varchar(500
+
         try {
-            stmt = con.prepareStatement("UPDATE tb_resposta_coment SET imagem = ?, conteudo = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_resposta_coment SET imagem = ?, conteudo = ? WHERE id_resposta = ? AND id_comentario = ? AND id_user_resp = ?");
             stmt.setString(1, respostaComent.getImagem());
             stmt.setString(2, respostaComent.getConteudo());
             stmt.setInt(3, respostaComent.getId_resposta()); //perguntar a icaro
+            stmt.setInt(4, respostaComent.getId_comentario());
+            stmt.setInt(5, respostaComent.getId_user_resp());
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -101,8 +113,10 @@ public class RespostaComentDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_resposta_coment WHERE id = ?");
-            stmt.setInt(1, respostaComent.getId_resposta()); //perguntar a icaro
+            stmt = con.prepareStatement("DELETE FROM tb_resposta_coment WHERE id_resposta = ? AND id_comentario = ? AND id_user_resp = ?");
+            stmt.setInt(1, respostaComent.getId_resposta());
+            stmt.setInt(2, respostaComent.getId_comentario());
+            stmt.setInt(3, respostaComent.getId_user_resp());
             
             stmt.executeUpdate();
             

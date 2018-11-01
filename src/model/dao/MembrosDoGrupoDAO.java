@@ -27,8 +27,11 @@ public class MembrosDoGrupoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_membros_grupo(administrador) VALUES(?)");
-            stmt.setString(1, membrosDoGrupo.getAdmnistrador());
+            stmt = con.prepareStatement("INSERT INTO tb_membros_grupo(id_grupo, id_usuario, administrador) VALUES(?, ?, ?)");
+            
+            stmt.setInt(1, membrosDoGrupo.getId_grupo());
+            stmt.setInt(2, membrosDoGrupo.getId_usuario());
+            stmt.setString(3, membrosDoGrupo.getAdmnistrador());
          
             stmt.executeUpdate();
             
@@ -78,9 +81,11 @@ public class MembrosDoGrupoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tb_membros_grupo SET administrador = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_membros_grupo SET administrador = ? WHERE id_memb_grup = ? AND id_grupo = ? AND id_usuario = ?");
             stmt.setString(1, membrosDoGrupo.getAdmnistrador());
-            stmt.setInt(2, membrosDoGrupo.getId_memb_grup()); //perguntar a icaro
+            stmt.setInt(2, membrosDoGrupo.getId_memb_grup());
+            stmt.setInt(3, membrosDoGrupo.getId_grupo());
+            stmt.setInt(4, membrosDoGrupo.getId_usuario());
             
             stmt.executeUpdate();
             
@@ -99,8 +104,10 @@ public class MembrosDoGrupoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_membros_grupo WHERE id = ?");
-            stmt.setInt(1, membrosDoGrupo.getId_memb_grup()); //perguntar a icaro
+            stmt = con.prepareStatement("DELETE FROM tb_membros_grupo WHERE id_memb_grup = ? AND id_grupo = ? AND id_usuario = ?");
+            stmt.setInt(1, membrosDoGrupo.getId_memb_grup());
+            stmt.setInt(2, membrosDoGrupo.getId_grupo());
+            stmt.setInt(3, membrosDoGrupo.getId_usuario());
             
             stmt.executeUpdate();
             

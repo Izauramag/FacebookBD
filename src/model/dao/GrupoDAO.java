@@ -79,18 +79,18 @@ public class GrupoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tb_grupo SET nome = ?, imagem = ?, conteudo = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_grupo SET nome = ?, imagem = ?, conteudo = ? WHERE id_grupo = ?");
             stmt.setString(1, grupo.getNome());
             stmt.setString(2, grupo.getImagem());
             stmt.setString(3, grupo.getConteudo());
-            stmt.setInt(4, grupo.getId_grupo()); //tirar duvida com icaro
+            stmt.setInt(4, grupo.getId_grupo());
             
             stmt.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao Atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -102,8 +102,8 @@ public class GrupoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_grupo WHERE id = ?");
-            stmt.setInt(1, grupo.getId_grupo()); //tirar duvida com icaro
+            stmt = con.prepareStatement("DELETE FROM tb_grupo WHERE id_grupo = ?");
+            stmt.setInt(1, grupo.getId_grupo());
             
             stmt.executeUpdate();
             

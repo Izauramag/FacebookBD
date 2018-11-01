@@ -15,6 +15,16 @@ public class Post {
     private String imagem;
     private String conteudo;
     private char visibilidade;
+
+    public Post() {
+    }
+
+    public Post(int id_user_post, String imagem, String conteudo, char visibilidade) {
+        this.id_user_post = id_user_post;
+        this.imagem = imagem;
+        this.conteudo = conteudo;
+        this.visibilidade = visibilidade;
+    }
     
     public int getId_post() {
         return id_post;

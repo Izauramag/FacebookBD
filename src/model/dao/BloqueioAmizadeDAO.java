@@ -20,6 +20,28 @@ import model.bean.BloqueioAmizade;
  * @author icaro
  */
 public class BloqueioAmizadeDAO {
+    public void create(BloqueioAmizade bloqueioAmizade){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("INSERT INTO tb_bloqueio_amizade(id_amigo, id_user_logado) VALUES(?, ?)");
+           
+            stmt.setInt(1, bloqueioAmizade.getId_amigo());
+            stmt.setInt(2, bloqueioAmizade.getId_user_logado()); //tirar duvida pq ambas sao PK
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
     public List<BloqueioAmizade> read(){
         Connection con = ConnectionFactory.getConnection();
 
@@ -47,5 +69,26 @@ public class BloqueioAmizadeDAO {
         }
         
         return bloqueioAmizades; 
+    }
+    
+    public void delete(BloqueioAmizade bloqueioAmizade){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tb_bloqueio_amizade WHERE id_amigo = ? AND id_user_logado = ?");
+            stmt.setInt(1, bloqueioAmizade.getId_amigo());
+            stmt.setInt(2, bloqueioAmizade.getId_user_logado());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
     }
 }

@@ -112,7 +112,7 @@ public class UsuarioDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_usuario WHERE id = ?");
+            stmt = con.prepareStatement("DELETE FROM tb_usuario WHERE id_usuario = ?");
             stmt.setInt(1, usuario.getId_usuario());
             
             stmt.executeUpdate();

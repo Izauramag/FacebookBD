@@ -20,6 +20,28 @@ import model.bean.SolicAmizade;
  * @author icaro
  */
 public class SolicAmizadeDAO {
+    public void create(SolicAmizade solicAmizade){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("INSERT INTO tb_solicit_amizade(id_amigo, id_user_logado) VALUES(?, ?)");
+           
+            stmt.setInt(1, solicAmizade.getId_amigo());
+            stmt.setInt(2, solicAmizade.getId_user_logado()); //tirar duvida pq ambas sao PK
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
     public List<SolicAmizade> read(){
         Connection con = ConnectionFactory.getConnection();
 
@@ -47,5 +69,26 @@ public class SolicAmizadeDAO {
         }
         
         return solicAmizades; 
+    }
+    
+    public void delete(SolicAmizade solicAmizade){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tb_solicit_amizade WHERE id_amigo = ? AND id_user_logado = ?");
+            stmt.setInt(1, solicAmizade.getId_amigo());
+            stmt.setInt(2, solicAmizade.getId_user_logado());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
     }
 }

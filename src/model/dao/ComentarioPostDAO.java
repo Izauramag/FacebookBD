@@ -26,9 +26,12 @@ public class ComentarioPostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_comentario_post(imagem, conteudo) VALUES(?,?)");
-            stmt.setString(1, comentarioPost.getImagem());
-            stmt.setString(2, comentarioPost.getConteudo());
+            stmt = con.prepareStatement("INSERT INTO tb_comentario_post(id_post, id_user_coment, imagem, conteudo) VALUES(?, ?, ?,?)");
+           
+            stmt.setInt(1, comentarioPost.getId_post());
+            stmt.setInt(2, comentarioPost.getId_user_coment());
+            stmt.setString(3, comentarioPost.getImagem());
+            stmt.setString(4, comentarioPost.getConteudo());
             
             stmt.executeUpdate();
             
@@ -79,10 +82,12 @@ public class ComentarioPostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tb_comentario_post SET imagem = ?, conteudo = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_comentario_post SET imagem = ?, conteudo = ? WHERE id_comentario = ? AND id_post = ? AND id_user_coment = ?");
             stmt.setString(1, comentarioPost.getImagem());
             stmt.setString(2, comentarioPost.getConteudo());
-            stmt.setInt(3, comentarioPost.getId_comentario()); //tirar duvida com icaro
+            stmt.setInt(3, comentarioPost.getId_comentario()); 
+            stmt.setInt(4, comentarioPost.getId_post()); 
+            stmt.setInt(5, comentarioPost.getId_user_coment()); 
             
             stmt.executeUpdate();
             
@@ -101,8 +106,10 @@ public class ComentarioPostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_comentario_post WHERE id = ?");
-            stmt.setInt(1, comentarioPost.getId_comentario()); //tirar duvida com icaro
+            stmt = con.prepareStatement("DELETE FROM tb_comentario_post WHERE id_comentario = ? AND id_post = ? AND id_user_coment = ?");
+            stmt.setInt(1, comentarioPost.getId_comentario());
+            stmt.setInt(2, comentarioPost.getId_post());
+            stmt.setInt(3, comentarioPost.getId_user_coment()); 
             
             stmt.executeUpdate();
             

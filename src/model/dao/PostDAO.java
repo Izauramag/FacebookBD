@@ -27,7 +27,9 @@ public class PostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_post(imagem, conteudo, visibilidade) VALUES(?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO tb_post(id_user_post, imagem, conteudo, visibilidade) VALUES(?, ?, ?, ?)");
+            
+            stmt.setInt(1, post.getId_user_post());
             stmt.setString(1, post.getImagem());
             stmt.setString(2, post.getConteudo());
             stmt.setString(3, post.getVisibilidade());
@@ -80,17 +82,18 @@ public class PostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tb_post SET imagem = ?, conteudo = ?, visibilidade = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_post SET imagem = ?, conteudo = ?, visibilidade = ? WHERE id_post = ? AND id_user_post = ?");
             stmt.setString(1, post.getImagem());
             stmt.setString(2, post.getConteudo());
             stmt.setString(3, post.getVisibilidade());
-            stmt.setInt(4, post.getId_post()); //perguntar a icaro
+            stmt.setInt(4, post.getId_post()); 
+            stmt.setInt(5, post.getId_user_post());
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
+            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -102,8 +105,9 @@ public class PostDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_post WHERE id = ?");
-            stmt.setInt(1, post.getId_post()); //perguntar a icaro
+            stmt = con.prepareStatement("DELETE FROM tb_post WHERE id_post = ? AND id_user_post = ?");
+            stmt.setInt(1, post.getId_post()); 
+            stmt.setInt(2, post.getId_user_post());
             
             stmt.executeUpdate();
             

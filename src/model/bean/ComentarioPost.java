@@ -17,6 +17,17 @@ public class ComentarioPost {
     private String imagem;
     private String conteudo;
 
+    public ComentarioPost() {
+    }
+
+    
+    public ComentarioPost(int id_post, int id_user_coment, String imagem, String conteudo) {
+        this.id_post = id_post;
+        this.id_user_coment = id_user_coment;
+        this.imagem = imagem;
+        this.conteudo = conteudo;
+    }
+
     public int getId_comentario() {
         return id_comentario;
     }

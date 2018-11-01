@@ -14,12 +14,35 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.bean.PostGrupo;
+import model.bean.PostUsuario;
 
 /**
  *
  * @author icaro
  */
 public class PostGrupoDAO {
+    public void create(PostGrupo postGrupo){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("INSERT INTO tb_post_grupo(id_post, id_grupo_post) VALUES(?, ?)");
+           
+            stmt.setInt(1, postGrupo.getId_post());
+            stmt.setInt(2, postGrupo.getId_grupo_post());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
     public List<PostGrupo> read(){
         Connection con = ConnectionFactory.getConnection();
 
@@ -47,5 +70,26 @@ public class PostGrupoDAO {
         }
         
         return postsGrupos; 
+    }
+    
+    public void delete(PostGrupo postGrupo){
+        Connection con = ConnectionFactory.getConnection();
+        
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM tb_post_grupo WHERE id_post = ? AND id_grupo_post = ?");
+            stmt.setInt(1, postGrupo.getId_post());
+            stmt.setInt(2, postGrupo.getId_grupo_post());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
     }
 }
