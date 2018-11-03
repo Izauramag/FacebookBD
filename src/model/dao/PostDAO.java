@@ -21,7 +21,7 @@ import model.bean.Post;
  */
 public class PostDAO {
     
-    public void create(Post post){
+    public static void create(Post post){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -30,9 +30,9 @@ public class PostDAO {
             stmt = con.prepareStatement("INSERT INTO tb_post(id_user_post, imagem, conteudo, visibilidade) VALUES(?, ?, ?, ?)");
             
             stmt.setInt(1, post.getId_user_post());
-            stmt.setString(1, post.getImagem());
-            stmt.setString(2, post.getConteudo());
-            stmt.setString(3, post.getVisibilidade());
+            stmt.setString(2, post.getImagem());
+            stmt.setString(3, post.getConteudo());
+            stmt.setString(4, post.getVisibilidade());
             
             stmt.executeUpdate();
             
@@ -44,7 +44,7 @@ public class PostDAO {
         }
     }
     
-    public List<Post> read(){
+    public static List<Post> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -76,7 +76,7 @@ public class PostDAO {
         return posts; 
     }
     
-    public void update(Post post){
+    public static void update(Post post){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -99,7 +99,7 @@ public class PostDAO {
         }
     }
     
-    public void delete(Post post){
+    public static void delete(Post post){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;

@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.awt.event.WindowEvent;
+import model.bean.Usuario;
+import model.dao.UsuarioDAO;
+
 /**
  *
  * @author icaro
@@ -75,7 +79,7 @@ public class Cadastro extends javax.swing.JFrame {
         senha.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
         senha.setText("SENHA");
 
-        cidade.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        cidade.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
         cidade.setText("CIDADE");
 
         jPanel1.setBackground(new java.awt.Color(70, 98, 158));
@@ -165,7 +169,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(cadastrar))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,6 +177,7 @@ public class Cadastro extends javax.swing.JFrame {
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
         // TODO add your handling code here:
+        this.writeNewUserToDatabase();
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void espacoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoLoginActionPerformed
@@ -185,6 +190,7 @@ public class Cadastro extends javax.swing.JFrame {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void espacoSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoSenhaActionPerformed
@@ -228,6 +234,20 @@ public class Cadastro extends javax.swing.JFrame {
                 new Cadastro().setVisible(true);
             }
         });
+    }
+    
+    private void writeNewUserToDatabase() {
+        Usuario usuarioCriado = new Usuario(
+                this.espacoNome.getText(),
+                this.espacoCidade.getText(),
+                "www.foto.com.jpg",
+                this.espacoSenha.getText(),
+                this.espacoLogin.getText(),
+                '1'
+        );
+        
+        UsuarioDAO.create(usuarioCriado);
+        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

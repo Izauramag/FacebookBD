@@ -2,6 +2,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 
 
@@ -139,10 +140,11 @@ public class Login extends javax.swing.JFrame {
 
     private void botaoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEntrarActionPerformed
 
-       UsuarioDAO dao = new UsuarioDAO();
+       String login = EspacoLogin.getText();
+       String senha = espacoSenha.getText();
        
-       if(dao.checkLogin(EspacoLogin.getText(), espacoSenha.getText())){
-           new Mural().setVisible(true);
+       if(UsuarioDAO.checkLogin(login, senha)){
+           new Perfil().setVisible(true);
            this.dispose();
        }else{
            JOptionPane.showMessageDialog(null, "Senha incorreta!");

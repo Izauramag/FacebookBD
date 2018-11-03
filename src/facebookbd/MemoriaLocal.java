@@ -5,10 +5,14 @@
  */
 package facebookbd;
 
-public class FacebookBD {
+import model.bean.Usuario;
 
-    public static void main(String[] args) {
-        // Codigos de teste vêm aqui.
-      
-    }
+/**
+ *
+ * @author icaro
+ */
+public class MemoriaLocal {
+    
+    public static Usuario usuarioLogado;
+    
 }

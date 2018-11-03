@@ -1,11 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package model.dao;
 
 import facebookbd.ConnectionFactory;
+import facebookbd.MemoriaLocal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,11 +22,11 @@ import model.bean.Usuario;
  */
 public class UsuarioDAO {
     
-    public void create(Usuario usuario){
+    public static void create(Usuario usuario){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("INSERT INTO tb_usuario(nome, cidade, foto, senha, login, visibilidade) VALUES(?,?,?,?,?,?)");
             stmt.setString(1, usuario.getNome());
@@ -38,7 +39,6 @@ public class UsuarioDAO {
             stmt.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
@@ -46,17 +46,17 @@ public class UsuarioDAO {
         }
     }
     
-    public List<Usuario> read(){
+    public static List<Usuario> read(){
         Connection con = ConnectionFactory.getConnection();
-
+        
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         List<Usuario> usuarios = new ArrayList<>();
-            
+        
         try {
             stmt = con.prepareStatement("SELECT * FROM tb_usuario");
-            rs = stmt.executeQuery(); 
+            rs = stmt.executeQuery();
             
             while(rs.next()){
                 Usuario usuario = new Usuario();
@@ -68,7 +68,7 @@ public class UsuarioDAO {
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setLogin(rs.getString("login"));
                 usuario.setVisibilidade(rs.getString("Visibilidade"));
-                usuarios.add(usuario);    
+                usuarios.add(usuario);
             }
             
         } catch (SQLException ex) {
@@ -77,14 +77,14 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         
-        return usuarios; 
+        return usuarios;
     }
     
-    public void update(Usuario usuario){
+    public static void update(Usuario usuario){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("UPDATE tb_usuario SET nome = ?, cidade = ?, foto = ?, senha = ?, login = ?, visibilidade = ? WHERE id = ?");
             stmt.setString(1, usuario.getNome());
@@ -98,7 +98,7 @@ public class UsuarioDAO {
             stmt.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
@@ -106,11 +106,11 @@ public class UsuarioDAO {
         }
     }
     
-    public void delete(Usuario usuario){
+    public static void delete(Usuario usuario){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("DELETE FROM tb_usuario WHERE id_usuario = ?");
             stmt.setInt(1, usuario.getId_usuario());
@@ -118,7 +118,7 @@ public class UsuarioDAO {
             stmt.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
@@ -126,7 +126,7 @@ public class UsuarioDAO {
         }
     }
     
-    public boolean checkLogin(String login, String senha){
+    public static boolean checkLogin(String login, String senha){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -140,10 +140,22 @@ public class UsuarioDAO {
             stmt.setString(2, senha);
             
             rs = stmt.executeQuery(); 
+            Usuario usuario = new Usuario();
             
             if(rs.next()){
                 check = true; 
+                
+                usuario.setId_usuario(rs.getInt("id_usuario"));
+                
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCidade(rs.getString("cidade"));
+                usuario.setFoto(rs.getString("foto"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setVisibilidade(rs.getString("Visibilidade"));
             }
+            
+            MemoriaLocal.usuarioLogado = usuario;
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
