@@ -32,11 +32,15 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        EspacoLogin.setText("izaura");
         EspacoLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EspacoLoginActionPerformed(evt);
             }
         });
+
+        espacoSenha.setText("123");
+        espacoSenha.setToolTipText("");
 
         nomeLogin.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         nomeLogin.setText("LOGIN");

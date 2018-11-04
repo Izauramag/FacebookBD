@@ -2,6 +2,9 @@ package view;
 
 import facebookbd.MemoriaLocal;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 
@@ -184,6 +187,20 @@ public class Usuarios extends javax.swing.JFrame {
         for (Usuario usuario: UsuarioDAO.read()) {
             this.inserirUsuarioNaListaDeUsuarios(usuario);
         }
+
+        // Logica para tratar toques e eventos em itens da lista.
+        ListSelectionListener listener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    JList source = (JList)event.getSource();
+                    String nome = source.getSelectedValue().toString();
+//                    new PerfilDoUsuario(nome).setVisible(true);
+                }
+            }
+        };
+
+        this.usuariosList.addListSelectionListener(listener);
     }
     
     public void inserirUsuarioNaListaDeUsuarios(Usuario usuario){  

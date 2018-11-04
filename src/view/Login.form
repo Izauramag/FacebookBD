@@ -73,11 +73,18 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="EspacoLogin">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="izaura"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EspacoLoginActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="espacoSenha">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="123"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="nomeLogin">
       <Properties>

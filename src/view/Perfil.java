@@ -1,6 +1,8 @@
 package view;
 
 import facebookbd.MemoriaLocal;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
@@ -12,6 +14,7 @@ import model.dao.UsuarioDAO;
 
 
 public class Perfil extends javax.swing.JFrame {
+    Map<Integer, Usuario> mapaDeUsuarios = new HashMap<>();
 
     public Perfil() {
         initComponents();
@@ -113,7 +116,7 @@ public class Perfil extends javax.swing.JFrame {
         amigosButton.setBackground(new java.awt.Color(255, 255, 255));
         amigosButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         amigosButton.setForeground(new java.awt.Color(70, 98, 158));
-        amigosButton.setText("AMIGOS");
+        amigosButton.setText("USUÁRIOS");
         amigosButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 amigosButtonActionPerformed(evt);
@@ -280,12 +283,14 @@ public class Perfil extends javax.swing.JFrame {
         this.configurarListaDePosts();
         
     }
-    
+
     private void configurarListaDeAmigos() {
         modeloDaListaDeAmigos = new DefaultListModel();
         amigosList.setModel(modeloDaListaDeAmigos);
         
+        int usuariosAdicionados = 0;
         for (Usuario usuario: UsuarioDAO.read()) {
+            this.mapaDeUsuarios.put(usuariosAdicionados++, usuario);
             modeloDaListaDeAmigos.addElement(usuario.getNome()); 
         }
 
@@ -295,8 +300,9 @@ public class Perfil extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     JList source = (JList)event.getSource();
-                    String nome = source.getSelectedValue().toString();
-                    new PerfilDoUsuario(nome).setVisible(true);
+                    int indiceAtualDaLista = source.getSelectedIndex();
+                    Usuario usuarioDesteIndice = mapaDeUsuarios.get(indiceAtualDaLista);
+                    new PerfilDoUsuario(usuarioDesteIndice).setVisible(true);
                 }
             }
         };
@@ -304,16 +310,17 @@ public class Perfil extends javax.swing.JFrame {
         this.amigosList.addListSelectionListener(listener);
     }
 
-    
     private void configurarListaDePosts(){
         modeloDaListaDePosts = new DefaultListModel();
         muralList.setModel(modeloDaListaDePosts);
-        
-        for(Post post : PostDAO.read()){
+
+        for (Post post : PostDAO.read()){
+            if (post.getId_user_post() != MemoriaLocal.usuarioLogado.getId_usuario())
+                continue;
             this.inserirPostsNaListaDeMural(post);
         }
     }
-        
+
     public void inserirPostsNaListaDeMural(Post post){
         modeloDaListaDePosts.addElement(post.getConteudo());
     }
