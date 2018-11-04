@@ -325,6 +325,8 @@ public class Perfil extends javax.swing.JFrame {
         modeloDaListaDePosts.addElement(post.getConteudo());
     }
     
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton amigosButton;
     private javax.swing.JLabel amigosLabel;

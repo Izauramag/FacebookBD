@@ -1,6 +1,8 @@
 package view;
 
 import facebookbd.MemoriaLocal;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
@@ -9,7 +11,8 @@ import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 
 public class Usuarios extends javax.swing.JFrame {
-
+    Map<Integer, Usuario> mapaDeUsuarios = new HashMap<>();
+    
     public Usuarios() {
         initComponents();
         configurarComponentesDaTela();
@@ -184,7 +187,9 @@ public class Usuarios extends javax.swing.JFrame {
         modeloDaListaDeUsuarios = new DefaultListModel();
         usuariosList.setModel(modeloDaListaDeUsuarios);
         
+        int usuariosAdicionados = 0;
         for (Usuario usuario: UsuarioDAO.read()) {
+            this.mapaDeUsuarios.put(usuariosAdicionados++, usuario);
             this.inserirUsuarioNaListaDeUsuarios(usuario);
         }
 
@@ -194,8 +199,9 @@ public class Usuarios extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     JList source = (JList)event.getSource();
-                    String nome = source.getSelectedValue().toString();
-//                    new PerfilDoUsuario(nome).setVisible(true);
+                    int indiceAtualDaLista = source.getSelectedIndex();
+                    Usuario usuarioDesteIndice = mapaDeUsuarios.get(indiceAtualDaLista);
+                    new PerfilDoUsuario(usuarioDesteIndice).setVisible(true);
                 }
             }
         };

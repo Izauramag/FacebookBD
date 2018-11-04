@@ -20,16 +20,16 @@ import model.bean.BloqueioAmizade;
  * @author icaro
  */
 public class BloqueioAmizadeDAO {
-    public void create(BloqueioAmizade bloqueioAmizade){
+    public static void create(BloqueioAmizade bloqueioAmizade){
         Connection con = ConnectionFactory.getConnection();
-        
+
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_bloqueio_amizade(id_amigo, id_user_logado) VALUES(?, ?)");
+            stmt = con.prepareStatement("INSERT INTO tb_bloqueio_amizade(id_user_bloqueante, id_user_bloqueado) VALUES(?, ?)");
            
-            stmt.setInt(1, bloqueioAmizade.getId_amigo());
-            stmt.setInt(2, bloqueioAmizade.getId_user_logado()); //tirar duvida pq ambas sao PK
+            stmt.setInt(1, bloqueioAmizade.getId_user_bloqueante());
+            stmt.setInt(2, bloqueioAmizade.getId_user_bloqueado()); //tirar duvida pq ambas sao PK
             
             stmt.executeUpdate();
             
@@ -42,7 +42,7 @@ public class BloqueioAmizadeDAO {
         }
     }
     
-    public List<BloqueioAmizade> read(){
+    public static List<BloqueioAmizade> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -57,8 +57,8 @@ public class BloqueioAmizadeDAO {
             while(rs.next()){
                 BloqueioAmizade bloqueioAmizade = new BloqueioAmizade();
                 
-                bloqueioAmizade.setId_amigo(rs.getInt("id_amigo"));
-                bloqueioAmizade.setId_user_logado(rs.getInt("id_user_logado")); 
+                bloqueioAmizade.setId_user_bloqueante(rs.getInt("id_user_bloqueante"));
+                bloqueioAmizade.setId_user_bloqueado(rs.getInt("id_user_bloqueado")); 
                 bloqueioAmizades.add(bloqueioAmizade);    
             }
             
@@ -71,15 +71,15 @@ public class BloqueioAmizadeDAO {
         return bloqueioAmizades; 
     }
     
-    public void delete(BloqueioAmizade bloqueioAmizade){
+    public static void delete(BloqueioAmizade bloqueioAmizade){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_bloqueio_amizade WHERE id_amigo = ? AND id_user_logado = ?");
-            stmt.setInt(1, bloqueioAmizade.getId_amigo());
-            stmt.setInt(2, bloqueioAmizade.getId_user_logado());
+            stmt = con.prepareStatement("DELETE FROM tb_bloqueio_amizade WHERE id_user_bloqueante = ? AND id_user_bloqueado = ?");
+            stmt.setInt(1, bloqueioAmizade.getId_user_bloqueante());
+            stmt.setInt(2, bloqueioAmizade.getId_user_bloqueado());
             
             stmt.executeUpdate();
             

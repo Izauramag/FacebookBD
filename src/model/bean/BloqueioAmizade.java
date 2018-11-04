@@ -11,25 +11,32 @@ package model.bean;
  */
 public class BloqueioAmizade {
     
-    private int id_amigo;
-    private int id_user_logado;
-    
-    
-    //Gerando getters and setters
-    
-    public int getId_amigo() {
-        return id_amigo;
+    private int id_user_bloqueante;
+    private int id_user_bloqueado;
+
+    public BloqueioAmizade(int id_user_bloqueante, int id_user_bloqueado) {
+        this.id_user_bloqueante = id_user_bloqueante;
+        this.id_user_bloqueado = id_user_bloqueado;
     }
-    
-    public void setId_amigo(int id_amigo) {
-        this.id_amigo = id_amigo;
+
+    public BloqueioAmizade() {
     }
+   
     
-    public int getId_user_logado() {
-        return id_user_logado;
+    public int getId_user_bloqueado() {
+        return id_user_bloqueado;
     }
+
+    public void setId_user_bloqueado(int id_user_bloqueado) {
+        this.id_user_bloqueado = id_user_bloqueado;
+    }
+
+    public int getId_user_bloqueante() {
+        return id_user_bloqueante;
+    }
+
+    public void setId_user_bloqueante(int id_user_bloqueante) {
+        this.id_user_bloqueante = id_user_bloqueante;
+    }  
     
-    public void setId_user_logado(int id_user_logado) {
-        this.id_user_logado = id_user_logado;
-    }
 }
