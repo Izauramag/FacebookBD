@@ -3,6 +3,12 @@ package view;
 import facebookbd.MemoriaLocal;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import model.bean.Post;
+import model.bean.Usuario;
+import model.dao.PostDAO;
+import model.dao.UsuarioDAO;
 
 
 public class Perfil extends javax.swing.JFrame {
@@ -11,18 +17,14 @@ public class Perfil extends javax.swing.JFrame {
         initComponents();
         configurarComponentesDaTela();
         
-        model = new DefaultListModel();
-        muralList.setModel(model);
     }
 
     Login login = new Login();
     Usuarios usuarios = new Usuarios();
+            
+    DefaultListModel modeloDaListaDeAmigos;
+    DefaultListModel modeloDaListaDePosts;
     
-    DefaultListModel model;
-    
-    public void mostrarPostNoMural(){  
-        model.addElement(""); 
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -40,20 +42,23 @@ public class Perfil extends javax.swing.JFrame {
         amigosList = new javax.swing.JList<>();
         amigosLabel = new javax.swing.JLabel();
         amigosButton = new javax.swing.JButton();
+        espacoCriarPostTextField = new javax.swing.JTextField();
+        publicarButton = new javax.swing.JButton();
+        criarPostLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mensagemDeBoasVindasLabel.setFont(new java.awt.Font("Yu Gothic", 0, 18)); // NOI18N
+        mensagemDeBoasVindasLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         mensagemDeBoasVindasLabel.setText("mensagemDeBoasVindas");
 
         jPanel1.setBackground(new java.awt.Color(70, 98, 158));
 
-        facebookLabel.setFont(new java.awt.Font("Yu Gothic", 0, 36)); // NOI18N
+        facebookLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 36)); // NOI18N
         facebookLabel.setForeground(new java.awt.Color(255, 255, 255));
         facebookLabel.setText("FACEBOOK");
 
         sairButton.setBackground(new java.awt.Color(255, 255, 255));
-        sairButton.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        sairButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         sairButton.setForeground(new java.awt.Color(70, 98, 158));
         sairButton.setText("SAIR");
         sairButton.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +90,7 @@ public class Perfil extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        cidadeLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        cidadeLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         cidadeLabel.setText("cidade");
 
         muralList.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
@@ -96,17 +101,17 @@ public class Perfil extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(muralList);
 
-        muralLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        muralLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         muralLabel.setText("MURAL");
 
         amigosList.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(amigosList);
 
-        amigosLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        amigosLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         amigosLabel.setText("AMIGOS");
 
         amigosButton.setBackground(new java.awt.Color(255, 255, 255));
-        amigosButton.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        amigosButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         amigosButton.setForeground(new java.awt.Color(70, 98, 158));
         amigosButton.setText("AMIGOS");
         amigosButton.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +119,25 @@ public class Perfil extends javax.swing.JFrame {
                 amigosButtonActionPerformed(evt);
             }
         });
+
+        espacoCriarPostTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                espacoCriarPostTextFieldActionPerformed(evt);
+            }
+        });
+
+        publicarButton.setBackground(new java.awt.Color(255, 255, 255));
+        publicarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        publicarButton.setForeground(new java.awt.Color(70, 98, 158));
+        publicarButton.setText("PUBLICAR");
+        publicarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                publicarButtonActionPerformed(evt);
+            }
+        });
+
+        criarPostLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        criarPostLabel.setText("CRIAR POST");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,25 +157,39 @@ public class Perfil extends javax.swing.JFrame {
                                 .addComponent(cidadeLabel))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(amigosButton)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(muralLabel))
-                                    .addGap(124, 124, 124)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(amigosLabel)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(espacoCriarPostTextField)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                                            .addComponent(muralLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(124, 124, 124)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(amigosLabel)
+                                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(publicarButton))))
+                                    .addComponent(criarPostLabel))))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
                 .addComponent(mensagemDeBoasVindasLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cidadeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(criarPostLabel)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(espacoCriarPostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(publicarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(muralLabel)
                     .addComponent(amigosLabel))
@@ -176,13 +214,26 @@ public class Perfil extends javax.swing.JFrame {
 
     private void amigosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amigosButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
         usuarios.setVisible(true);
     }//GEN-LAST:event_amigosButtonActionPerformed
 
     private void muralListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_muralListPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_muralListPropertyChange
+
+    private void espacoCriarPostTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoCriarPostTextFieldActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_espacoCriarPostTextFieldActionPerformed
+
+    private void publicarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publicarButtonActionPerformed
+        // TODO add your handling code here:
+//        PostDAO.create(post);
+        
+        Post postNoMural = new Post(MemoriaLocal.usuarioLogado.getId_usuario(), "img.jpg", espacoCriarPostTextField.getText(), '1');
+        PostDAO.create(postNoMural);
+        this.inserirPostsNaListaDeMural(postNoMural);
+    }//GEN-LAST:event_publicarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,13 +275,56 @@ public class Perfil extends javax.swing.JFrame {
     private void configurarComponentesDaTela() {
         this.mensagemDeBoasVindasLabel.setText("Bem vindo " + MemoriaLocal.usuarioLogado.getNome());
         this.cidadeLabel.setText(MemoriaLocal.usuarioLogado.getCidade());
+        
+        this.configurarListaDeAmigos();
+        this.configurarListaDePosts();
+        
+    }
+    
+    private void configurarListaDeAmigos() {
+        modeloDaListaDeAmigos = new DefaultListModel();
+        amigosList.setModel(modeloDaListaDeAmigos);
+        
+        for (Usuario usuario: UsuarioDAO.read()) {
+            modeloDaListaDeAmigos.addElement(usuario.getNome()); 
+        }
+
+        // Logica para tratar toques e eventos em itens da lista.
+        ListSelectionListener listener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    JList source = (JList)event.getSource();
+                    String nome = source.getSelectedValue().toString();
+                    new PerfilDoUsuario(nome).setVisible(true);
+                }
+            }
+        };
+
+        this.amigosList.addListSelectionListener(listener);
     }
 
+    
+    private void configurarListaDePosts(){
+        modeloDaListaDePosts = new DefaultListModel();
+        muralList.setModel(modeloDaListaDePosts);
+        
+        for(Post post : PostDAO.read()){
+            this.inserirPostsNaListaDeMural(post);
+        }
+    }
+        
+    public void inserirPostsNaListaDeMural(Post post){
+        modeloDaListaDePosts.addElement(post.getConteudo());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton amigosButton;
     private javax.swing.JLabel amigosLabel;
     private javax.swing.JList<String> amigosList;
     private javax.swing.JLabel cidadeLabel;
+    private javax.swing.JLabel criarPostLabel;
+    private javax.swing.JTextField espacoCriarPostTextField;
     private javax.swing.JLabel facebookLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -238,6 +332,7 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JLabel mensagemDeBoasVindasLabel;
     private javax.swing.JLabel muralLabel;
     private javax.swing.JList<String> muralList;
+    private javax.swing.JButton publicarButton;
     private javax.swing.JButton sairButton;
     // End of variables declaration//GEN-END:variables
 }

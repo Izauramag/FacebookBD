@@ -2,22 +2,18 @@ package view;
 
 import facebookbd.MemoriaLocal;
 import javax.swing.DefaultListModel;
+import model.bean.Usuario;
+import model.dao.UsuarioDAO;
 
 public class Usuarios extends javax.swing.JFrame {
 
     public Usuarios() {
         initComponents();
-        
-        model = new DefaultListModel();
-        usuariosList.setModel(model);
+        configurarComponentesDaTela();
     }
     
-    DefaultListModel model;
+    DefaultListModel modeloDaListaDeUsuarios;
 
-    public void apresentaListaUsuarios(){
-        model.addElement("");
-    }
-    
     Login login = new Login();
     
     @SuppressWarnings("unchecked")
@@ -41,13 +37,13 @@ public class Usuarios extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(70, 98, 158));
 
-        facecbookLabel.setFont(new java.awt.Font("Yu Gothic", 0, 36)); // NOI18N
+        facecbookLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 36)); // NOI18N
         facecbookLabel.setForeground(new java.awt.Color(255, 255, 255));
         facecbookLabel.setText("FACEBOOK");
 
-        sairButton.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        sairButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         sairButton.setForeground(new java.awt.Color(70, 98, 158));
-        sairButton.setText("SAIR");
+        sairButton.setText("VOLTAR");
         sairButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sairButtonActionPerformed(evt);
@@ -59,7 +55,7 @@ public class Usuarios extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(383, Short.MAX_VALUE)
+                .addContainerGap(373, Short.MAX_VALUE)
                 .addComponent(facecbookLabel)
                 .addGap(282, 282, 282)
                 .addComponent(sairButton)
@@ -77,19 +73,19 @@ public class Usuarios extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        usuariosLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        usuariosLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         usuariosLabel.setText("USUÁRIOS");
 
         usuariosList.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(usuariosList);
 
-        solicitacoesLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        solicitacoesLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         solicitacoesLabel.setText("SOLICITAÇÕES");
 
         solicitacoesList.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(solicitacoesList);
 
-        bloqueadosLabel.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        bloqueadosLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         bloqueadosLabel.setText("USUÁRIOS BLOQUEADOS");
 
         bloqueadosList.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
@@ -117,7 +113,7 @@ public class Usuarios extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usuariosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(solicitacoesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -138,8 +134,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void sairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_sairButtonActionPerformed
 
     /**
@@ -176,7 +171,28 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    
+    private void configurarComponentesDaTela() {
+        this.configurarListaDeUsuarios();
+    }
+    
+    private void configurarListaDeUsuarios(){
+        modeloDaListaDeUsuarios = new DefaultListModel();
+        usuariosList.setModel(modeloDaListaDeUsuarios);
+        
+        for (Usuario usuario: UsuarioDAO.read()) {
+            this.inserirUsuarioNaListaDeUsuarios(usuario);
+        }
+    }
+    
+    public void inserirUsuarioNaListaDeUsuarios(Usuario usuario){  
+        modeloDaListaDeUsuarios.addElement(usuario.getNome()); 
+    }
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bloqueadosLabel;
     private javax.swing.JList<String> bloqueadosList;

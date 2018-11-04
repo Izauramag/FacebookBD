@@ -61,7 +61,7 @@ public class UsuarioDAO {
             while(rs.next()){
                 Usuario usuario = new Usuario();
                 
-                usuario.setId_usuario(rs.getInt("id"));
+                usuario.setId_usuario(rs.getInt("id_usuario"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setCidade(rs.getString("cidade"));
                 usuario.setFoto(rs.getString("foto"));

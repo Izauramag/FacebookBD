@@ -38,10 +38,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        nomeLogin.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        nomeLogin.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         nomeLogin.setText("LOGIN");
 
-        nomeSenha.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        nomeSenha.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         nomeSenha.setText("SENHA");
 
         jPanel1.setBackground(new java.awt.Color(70, 98, 158));
@@ -68,7 +68,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        botaoCadastrar.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        botaoCadastrar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         botaoCadastrar.setText("CADASTRAR");
         botaoCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,7 +76,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        botaoEntrar.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        botaoEntrar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         botaoEntrar.setText("ENTRAR");
         botaoEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +123,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();

@@ -5,10 +5,16 @@
  */
 package facebookbd;
 
+import model.bean.Post;
+import model.bean.Usuario;
+import model.dao.PostDAO;
+import model.dao.UsuarioDAO;
+
 public class FacebookBD {
 
     public static void main(String[] args) {
         // Codigos de teste vêm aqui.
-      
     }
+    
+    
 }

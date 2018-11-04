@@ -70,16 +70,16 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
 
-        Nome.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        Nome.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         Nome.setText("NOME");
 
-        login.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        login.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         login.setText("LOGIN");
 
-        senha.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        senha.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         senha.setText("SENHA");
 
-        cidade.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        cidade.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         cidade.setText("CIDADE");
 
         jPanel1.setBackground(new java.awt.Color(70, 98, 158));
@@ -105,7 +105,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        cancelar.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        cancelar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         cancelar.setText("CANCELAR");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +113,7 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
 
-        cadastrar.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
+        cadastrar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         cadastrar.setText("CADASTRAR");
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,7 +139,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(169, Short.MAX_VALUE)
+                .addContainerGap(175, Short.MAX_VALUE)
                 .addComponent(cancelar)
                 .addGap(38, 38, 38)
                 .addComponent(cadastrar)
@@ -169,7 +169,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(cadastrar))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
