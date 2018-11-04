@@ -11,24 +11,32 @@ package model.bean;
  */
 public class SolicAmizade {
     
-    private int id_amigo;
-    private int id_user_logado;
+    private int id_user_solicitante;
+    private int id_user_solicitado;
     
     //Gerando getters and setters
-    
-    public int getId_amigo() {
-        return id_amigo;
+
+    public SolicAmizade(int id_user_solicitante, int id_user_solicitado) {
+        this.id_user_solicitante = id_user_solicitante;
+        this.id_user_solicitado = id_user_solicitado;
     }
-    
-    public void setId_amigo(int id_amigo) {
-        this.id_amigo = id_amigo;
+
+    public SolicAmizade() {
     }
-    
-    public int getId_user_logado() {
-        return id_user_logado;
+
+    public int getId_user_solicitante() {
+        return id_user_solicitante;
     }
-    
-    public void setId_user_logado(int id_user_logado) {
-        this.id_user_logado = id_user_logado;
+
+    public void setId_user_solicitante(int id_user_solicitante) {
+        this.id_user_solicitante = id_user_solicitante;
     }
+
+    public int getId_user_solicitado() {
+        return id_user_solicitado;
+    }
+
+    public void setId_user_solicitado(int id_user_solicitado) {
+        this.id_user_solicitado = id_user_solicitado;
+    }   
 }

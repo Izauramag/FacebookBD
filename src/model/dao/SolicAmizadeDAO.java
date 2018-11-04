@@ -20,16 +20,16 @@ import model.bean.SolicAmizade;
  * @author icaro
  */
 public class SolicAmizadeDAO {
-    public void create(SolicAmizade solicAmizade){
+    public static void create(SolicAmizade solicAmizade){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tb_solicit_amizade(id_amigo, id_user_logado) VALUES(?, ?)");
+            stmt = con.prepareStatement("INSERT INTO tb_solicit_amizade(id_user_solicitante, id_user_solicitado) VALUES(?, ?)");
            
-            stmt.setInt(1, solicAmizade.getId_amigo());
-            stmt.setInt(2, solicAmizade.getId_user_logado()); //tirar duvida pq ambas sao PK
+            stmt.setInt(1, solicAmizade.getId_user_solicitante());
+            stmt.setInt(2, solicAmizade.getId_user_solicitado()); //tirar duvida pq ambas sao PK
             
             stmt.executeUpdate();
             
@@ -42,7 +42,7 @@ public class SolicAmizadeDAO {
         }
     }
     
-    public List<SolicAmizade> read(){
+    public static List<SolicAmizade> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -57,8 +57,8 @@ public class SolicAmizadeDAO {
             while(rs.next()){
                 SolicAmizade solicAmizade = new SolicAmizade();
                 
-                solicAmizade.setId_amigo(rs.getInt("id_amigo"));
-                solicAmizade.setId_user_logado(rs.getInt("id_user_logado")); 
+                solicAmizade.setId_user_solicitante(rs.getInt("id_user_solicitante"));
+                solicAmizade.setId_user_solicitado(rs.getInt("id_user_solicitado")); 
                 solicAmizades.add(solicAmizade);    
             }
             
@@ -71,15 +71,15 @@ public class SolicAmizadeDAO {
         return solicAmizades; 
     }
     
-    public void delete(SolicAmizade solicAmizade){
+    public static void delete(SolicAmizade solicAmizade){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tb_solicit_amizade WHERE id_amigo = ? AND id_user_logado = ?");
-            stmt.setInt(1, solicAmizade.getId_amigo());
-            stmt.setInt(2, solicAmizade.getId_user_logado());
+            stmt = con.prepareStatement("DELETE FROM tb_solicit_amizade WHERE id_user_solicitante = ? AND id_user_solicitado = ?");
+            stmt.setInt(1, solicAmizade.getId_user_solicitante());
+            stmt.setInt(2, solicAmizade.getId_user_solicitado());
             
             stmt.executeUpdate();
             
@@ -90,5 +90,33 @@ public class SolicAmizadeDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public static boolean checkAmizade(int id_solicitante, int id_solicitado){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean check = false;
+        
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_solicit_amizade WHERE id_solicitante = ? AND id_solicitado = ?");
+            stmt.setInt(1, id_solicitante);
+            stmt.setInt(2, id_solicitado);
+            
+            rs = stmt.executeQuery(); 
+            
+            if(rs.next()){
+                check = true; 
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check; 
     }
 }

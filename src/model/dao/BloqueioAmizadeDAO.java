@@ -6,6 +6,7 @@
 package model.dao;
 
 import facebookbd.ConnectionFactory;
+import facebookbd.MemoriaLocal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.bean.BloqueioAmizade;
+import model.bean.Usuario;
 
 /**
  *
@@ -90,5 +92,32 @@ public class BloqueioAmizadeDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public static boolean checkBloqueio(int id_solicitante, int id_solicitado){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean check = false; 
+            
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_bloqueio_amizade WHERE id_solicitante = ? AND id_solicitado = ?");
+            stmt.setInt(1, id_solicitante);
+            stmt.setInt(2, id_solicitado);
+            
+            rs = stmt.executeQuery(); 
+            
+            if(rs.next()){
+                check = true; 
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check;
     }
 }

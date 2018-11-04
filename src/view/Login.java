@@ -151,7 +151,7 @@ public class Login extends javax.swing.JFrame {
            new Perfil().setVisible(true);
            this.dispose();
        }else{
-           JOptionPane.showMessageDialog(null, "Senha incorreta!");
+           JOptionPane.showMessageDialog(null, "Senha ou login incorreto!");
        }
     }//GEN-LAST:event_botaoEntrarActionPerformed
 

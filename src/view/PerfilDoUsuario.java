@@ -9,9 +9,11 @@ import facebookbd.MemoriaLocal;
 import javax.swing.DefaultListModel;
 import model.bean.BloqueioAmizade;
 import model.bean.Post;
+import model.bean.SolicAmizade;
 import model.bean.Usuario;
 import model.dao.BloqueioAmizadeDAO;
 import model.dao.PostDAO;
+import model.dao.SolicAmizadeDAO;
 
 /**
  *
@@ -62,6 +64,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("FACEBOOK");
 
+        voltarButton.setBackground(new java.awt.Color(255, 255, 255));
         voltarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         voltarButton.setForeground(new java.awt.Color(70, 98, 158));
         voltarButton.setText("VOLTAR");
@@ -74,7 +77,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         bloquearButton.setBackground(new java.awt.Color(255, 255, 255));
         bloquearButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         bloquearButton.setForeground(new java.awt.Color(70, 98, 158));
-        bloquearButton.setText("BLOQUEAR");
+        bloquearButton.setText("bloq ou desbloc");
         bloquearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bloquearButtonActionPerformed(evt);
@@ -84,7 +87,12 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         adicionarButton.setBackground(new java.awt.Color(255, 255, 255));
         adicionarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         adicionarButton.setForeground(new java.awt.Color(70, 98, 158));
-        adicionarButton.setText("ADICIONAR");
+        adicionarButton.setText("add ou excluir");
+        adicionarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -230,11 +238,18 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_espacoPostTextfieldActionPerformed
 
     private void bloquearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloquearButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here  
         BloqueioAmizade bloqueio = new BloqueioAmizade(MemoriaLocal.usuarioLogado.getId_usuario(), usuario.getId_usuario());
         BloqueioAmizadeDAO.create(bloqueio);
+            
         
     }//GEN-LAST:event_bloquearButtonActionPerformed
+
+    private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
+        // TODO add your handling code here:
+        SolicAmizade solicitacao = new SolicAmizade(MemoriaLocal.usuarioLogado.getId_usuario(), usuario.getId_usuario());
+        SolicAmizadeDAO.create(solicitacao);
+    }//GEN-LAST:event_adicionarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,6 +291,8 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         this.cidadeLabel.setText(this.usuario.getCidade());
         
         this.configurarListaDePosts();
+        this.configurarBotaoDeAcordoComBloqueio();
+        this.configurarBotaoDeAcordoComSolicitacao();
     }
     
     private void configurarListaDePosts(){
@@ -291,6 +308,28 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
      
     public void inserirPostsNaListaDeMural(Post post){
         modeloDaListaDePosts.addElement(post.getConteudo());
+    }
+    
+    public void configurarBotaoDeAcordoComBloqueio(){
+        int id_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
+        int id_solicitado = usuario.getId_usuario();
+       
+        if(BloqueioAmizadeDAO.checkBloqueio(id_solicitante, id_solicitado)){
+            bloquearButton.setText("BLOQUEAR");
+        }else{
+            bloquearButton.setText("DESBLOQUEAR");
+        }
+    }
+    
+    public void configurarBotaoDeAcordoComSolicitacao(){
+        int id_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
+        int id_solicitado = usuario.getId_usuario();
+       
+        if(SolicAmizadeDAO.checkAmizade(id_solicitante, id_solicitado)){
+            adicionarButton.setText("ADICIONAR");
+        }else{
+            adicionarButton.setText("EXCLUIR");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.bean.Post;
 import model.bean.Usuario;
+import model.dao.BloqueioAmizadeDAO;
 import model.dao.PostDAO;
 import model.dao.UsuarioDAO;
 
@@ -44,7 +45,7 @@ public class Perfil extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         amigosList = new javax.swing.JList<>();
         amigosLabel = new javax.swing.JLabel();
-        amigosButton = new javax.swing.JButton();
+        usuariosButton = new javax.swing.JButton();
         espacoCriarPostTextField = new javax.swing.JTextField();
         publicarButton = new javax.swing.JButton();
         criarPostLabel = new javax.swing.JLabel();
@@ -113,13 +114,13 @@ public class Perfil extends javax.swing.JFrame {
         amigosLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         amigosLabel.setText("AMIGOS");
 
-        amigosButton.setBackground(new java.awt.Color(255, 255, 255));
-        amigosButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
-        amigosButton.setForeground(new java.awt.Color(70, 98, 158));
-        amigosButton.setText("USUÁRIOS");
-        amigosButton.addActionListener(new java.awt.event.ActionListener() {
+        usuariosButton.setBackground(new java.awt.Color(255, 255, 255));
+        usuariosButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        usuariosButton.setForeground(new java.awt.Color(70, 98, 158));
+        usuariosButton.setText("USUÁRIOS");
+        usuariosButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                amigosButtonActionPerformed(evt);
+                usuariosButtonActionPerformed(evt);
             }
         });
 
@@ -159,7 +160,7 @@ public class Perfil extends javax.swing.JFrame {
                                 .addGap(137, 137, 137)
                                 .addComponent(cidadeLabel))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(amigosButton)
+                                .addComponent(usuariosButton)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -202,7 +203,7 @@ public class Perfil extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(amigosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(usuariosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(32, 32, 32))
         );
 
@@ -215,10 +216,12 @@ public class Perfil extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_sairButtonActionPerformed
 
-    private void amigosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amigosButtonActionPerformed
+    private void usuariosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosButtonActionPerformed
         // TODO add your handling code here:
         usuarios.setVisible(true);
-    }//GEN-LAST:event_amigosButtonActionPerformed
+        
+        
+    }//GEN-LAST:event_usuariosButtonActionPerformed
 
     private void muralListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_muralListPropertyChange
         // TODO add your handling code here:
@@ -328,7 +331,6 @@ public class Perfil extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton amigosButton;
     private javax.swing.JLabel amigosLabel;
     private javax.swing.JList<String> amigosList;
     private javax.swing.JLabel cidadeLabel;
@@ -343,5 +345,6 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JList<String> muralList;
     private javax.swing.JButton publicarButton;
     private javax.swing.JButton sairButton;
+    private javax.swing.JButton usuariosButton;
     // End of variables declaration//GEN-END:variables
 }

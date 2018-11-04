@@ -7,7 +7,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import model.bean.SolicAmizade;
 import model.bean.Usuario;
+import model.dao.BloqueioAmizadeDAO;
+import model.dao.SolicAmizadeDAO;
 import model.dao.UsuarioDAO;
 
 public class Usuarios extends javax.swing.JFrame {
@@ -19,7 +22,8 @@ public class Usuarios extends javax.swing.JFrame {
     }
     
     DefaultListModel modeloDaListaDeUsuarios;
-
+    DefaultListModel modeloDaListaDeSolicitacoes;
+    
     Login login = new Login();
     
     @SuppressWarnings("unchecked")
@@ -119,7 +123,7 @@ public class Usuarios extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usuariosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(solicitacoesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -127,12 +131,12 @@ public class Usuarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
+                        .addGap(36, 36, 36)
                         .addComponent(bloqueadosLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(22, 22, 22))
+                        .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43))
         );
 
         pack();
@@ -181,6 +185,7 @@ public class Usuarios extends javax.swing.JFrame {
     
     private void configurarComponentesDaTela() {
         this.configurarListaDeUsuarios();
+        this.configurarListaDeSolicitacoes();
     }
     
     private void configurarListaDeUsuarios(){
@@ -213,7 +218,18 @@ public class Usuarios extends javax.swing.JFrame {
         modeloDaListaDeUsuarios.addElement(usuario.getNome()); 
     }
     
+    private void configurarListaDeSolicitacoes(){
+        modeloDaListaDeSolicitacoes = new DefaultListModel();
+        solicitacoesList.setModel(modeloDaListaDeSolicitacoes);
+        
+        for (SolicAmizade solicitacao: SolicAmizadeDAO.read()) {
+            this.inserirUsuarioNaListaDeSolicitacoes(solicitacao);
+        }
+    }
     
+    public void inserirUsuarioNaListaDeSolicitacoes(SolicAmizade solicitacao){  
+        modeloDaListaDeSolicitacoes.addElement(solicitacao.getId_user_solicitado()); 
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
