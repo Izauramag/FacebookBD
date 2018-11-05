@@ -35,10 +35,10 @@ public class BloqueioAmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Bloqueio de amizade salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao salvar bloqueio de amizade: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -85,10 +85,10 @@ public class BloqueioAmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"bloqueio de amizade desfeito com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao excluir bloqueio de amizade: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }

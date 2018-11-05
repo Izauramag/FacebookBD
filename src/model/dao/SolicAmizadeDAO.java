@@ -33,10 +33,10 @@ public class SolicAmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Solicitação salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao salvar solicitação: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -83,10 +83,10 @@ public class SolicAmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"solicitação excluida com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao excluir solicitação: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }

@@ -7,10 +7,12 @@ package view;
 
 import facebookbd.MemoriaLocal;
 import javax.swing.DefaultListModel;
+import model.bean.Amizade;
 import model.bean.BloqueioAmizade;
 import model.bean.Post;
 import model.bean.SolicAmizade;
 import model.bean.Usuario;
+import model.dao.AmizadeDAO;
 import model.dao.BloqueioAmizadeDAO;
 import model.dao.PostDAO;
 import model.dao.SolicAmizadeDAO;
@@ -21,6 +23,7 @@ import model.dao.SolicAmizadeDAO;
  */
 public class PerfilDoUsuario extends javax.swing.JFrame {
     Usuario usuario;
+    Amizade amizadeASerChecada;
     DefaultListModel modeloDaListaDePosts;
     private boolean existeBloqueio = false;
     private boolean existeSolicitacaoDeAmizade = false;
@@ -32,11 +35,12 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         this.usuario = usuario;
         int meuId = MemoriaLocal.usuarioLogado.getId_usuario();
         int idDoPerfilVisitado = this.usuario.getId_usuario();
-
+        
         this.bloqueio = new BloqueioAmizade(meuId, idDoPerfilVisitado);
         this.solicitacaoDeAmizade = new SolicAmizade(meuId, idDoPerfilVisitado);
- 
+        
         this.existeBloqueio = BloqueioAmizadeDAO.checkBloqueio(bloqueio);
+        this.amizadeASerChecada = new Amizade(meuId, idDoPerfilVisitado);
         this.existeSolicitacaoDeAmizade = SolicAmizadeDAO.checkAmizade(solicitacaoDeAmizade);
 
         this.configurarComponentesDaTela();
@@ -50,8 +54,8 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         voltarButton = new javax.swing.JButton();
-        bloquearButton = new javax.swing.JButton();
-        adicionarButton = new javax.swing.JButton();
+        bloquearOuDesbloquearButton = new javax.swing.JButton();
+        addExclirOuDeletarButton = new javax.swing.JButton();
         cidadeLabel = new javax.swing.JLabel();
         criarPostLabel = new javax.swing.JLabel();
         espacoPostTextfield = new javax.swing.JTextField();
@@ -87,23 +91,23 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
             }
         });
 
-        bloquearButton.setBackground(new java.awt.Color(255, 255, 255));
-        bloquearButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
-        bloquearButton.setForeground(new java.awt.Color(70, 98, 158));
-        bloquearButton.setText("bloq ou desbloc");
-        bloquearButton.addActionListener(new java.awt.event.ActionListener() {
+        bloquearOuDesbloquearButton.setBackground(new java.awt.Color(255, 255, 255));
+        bloquearOuDesbloquearButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        bloquearOuDesbloquearButton.setForeground(new java.awt.Color(70, 98, 158));
+        bloquearOuDesbloquearButton.setText("bloq ou desbloc");
+        bloquearOuDesbloquearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bloquearButtonActionPerformed(evt);
+                bloquearOuDesbloquearButtonActionPerformed(evt);
             }
         });
 
-        adicionarButton.setBackground(new java.awt.Color(255, 255, 255));
-        adicionarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
-        adicionarButton.setForeground(new java.awt.Color(70, 98, 158));
-        adicionarButton.setText("add ou excluir");
-        adicionarButton.addActionListener(new java.awt.event.ActionListener() {
+        addExclirOuDeletarButton.setBackground(new java.awt.Color(255, 255, 255));
+        addExclirOuDeletarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        addExclirOuDeletarButton.setForeground(new java.awt.Color(70, 98, 158));
+        addExclirOuDeletarButton.setText("add ou excluir");
+        addExclirOuDeletarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adicionarButtonActionPerformed(evt);
+                addExclirOuDeletarButtonActionPerformed(evt);
             }
         });
 
@@ -114,10 +118,10 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(137, 137, 137)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(adicionarButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
+                .addComponent(addExclirOuDeletarButton)
                 .addGap(18, 18, 18)
-                .addComponent(bloquearButton)
+                .addComponent(bloquearOuDesbloquearButton)
                 .addGap(18, 18, 18)
                 .addComponent(voltarButton)
                 .addGap(19, 19, 19))
@@ -132,8 +136,8 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(voltarButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(adicionarButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bloquearButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(addExclirOuDeletarButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bloquearOuDesbloquearButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -207,7 +211,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(128, 128, 128)
                                 .addComponent(mensagemBoasVindasLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(318, 373, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +255,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_espacoPostTextfieldActionPerformed
     
-    private void bloquearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloquearButtonActionPerformed
+    private void bloquearOuDesbloquearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloquearOuDesbloquearButtonActionPerformed
         // TODO add your handling code here
         if (this.existeBloqueio) {
             BloqueioAmizadeDAO.delete(bloqueio);
@@ -261,10 +265,22 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         
         this.existeBloqueio = !this.existeBloqueio;
         this.configurarBotaoDeBloqueio();
-    }//GEN-LAST:event_bloquearButtonActionPerformed
+    }//GEN-LAST:event_bloquearOuDesbloquearButtonActionPerformed
     
-    private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
+    private boolean existeAmizade() {
+        Amizade amizadeInversaASerChecada = new Amizade(amizadeASerChecada.getId_user_logado(), amizadeASerChecada.getId_amigo());
+        return AmizadeDAO.checkAmizade(amizadeASerChecada) || AmizadeDAO.checkAmizade(amizadeInversaASerChecada);
+    }
+
+    private void addExclirOuDeletarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExclirOuDeletarButtonActionPerformed
         // TODO add your handling code here:
+
+        if (existeAmizade()) {
+            AmizadeDAO.delete(amizadeASerChecada);
+            this.configurarBotaoDeAmizade();
+            return;
+        }
+        
         if(this.existeSolicitacaoDeAmizade){
             SolicAmizadeDAO.delete(solicitacaoDeAmizade);
         }else{
@@ -273,7 +289,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         
         this.existeSolicitacaoDeAmizade = !this.existeSolicitacaoDeAmizade;
         this.configurarBotaoDeAmizade();
-    }//GEN-LAST:event_adicionarButtonActionPerformed
+    }//GEN-LAST:event_addExclirOuDeletarButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -331,19 +347,25 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     }
     
     public void configurarBotaoDeBloqueio(){
-        bloquearButton.setText(this.existeBloqueio ? "DESBLOQUEAR" : "BLOQUEAR");
-        this.adicionarButton.setVisible(!existeBloqueio);
+        bloquearOuDesbloquearButton.setText(this.existeBloqueio ? "DESBLOQUEAR" : "BLOQUEAR");
+        this.addExclirOuDeletarButton.setVisible(!existeBloqueio);
     }
     
     public void configurarBotaoDeAmizade(){
-        adicionarButton.setText(this.existeSolicitacaoDeAmizade ? "EXCLUIR SOLICITAÇÃO" : "SOLICITAR AMIZADE");
+        if (existeAmizade()) {
+            addExclirOuDeletarButton.setText("REMOVER AMIZADE");
+            return;
+        }
+
+        addExclirOuDeletarButton.setText(this.existeSolicitacaoDeAmizade ? "EXCLUIR SOLICITAÇÃO" : "SOLICITAR AMIZADE");
     }
     
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton adicionarButton;
+    private javax.swing.JButton addExclirOuDeletarButton;
     private javax.swing.JLabel amigosLabel;
     private javax.swing.JList<String> amigosList;
-    private javax.swing.JButton bloquearButton;
+    private javax.swing.JButton bloquearOuDesbloquearButton;
     private javax.swing.JLabel cidadeLabel;
     private javax.swing.JLabel criarPostLabel;
     private javax.swing.JTextField espacoPostTextfield;

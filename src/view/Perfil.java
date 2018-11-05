@@ -337,6 +337,21 @@ public class Perfil extends javax.swing.JFrame {
                 continue;
             this.inserirPostsNaListaDeMural(post);
         }
+        
+        ListSelectionListener listener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    JList source = (JList)event.getSource();
+                    int indiceAtualDaLista = source.getSelectedIndex();
+                    Usuario usuarioDesteIndice = mapaDeUsuarios.get(indiceAtualDaLista);
+                    new TelaDePost().setVisible(true);
+                    dispose();
+                }
+            }
+        };
+
+        this.muralList.addListSelectionListener(listener);
     }
 
     public void inserirPostsNaListaDeMural(Post post){

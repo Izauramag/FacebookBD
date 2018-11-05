@@ -69,7 +69,7 @@
                               <Component id="mensagemBoasVindasLabel" min="-2" pref="322" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="318" pref="373" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -133,10 +133,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="adicionarButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="184" max="32767" attributes="0"/>
+                  <Component id="addExclirOuDeletarButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                  <Component id="bloquearButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="bloquearOuDesbloquearButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="voltarButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
@@ -154,8 +154,8 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="voltarButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="adicionarButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="bloquearButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="addExclirOuDeletarButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="bloquearOuDesbloquearButton" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -191,7 +191,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="voltarButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="bloquearButton">
+        <Component class="javax.swing.JButton" name="bloquearOuDesbloquearButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -205,10 +205,10 @@
             <Property name="text" type="java.lang.String" value="bloq ou desbloc"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bloquearButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bloquearOuDesbloquearButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="adicionarButton">
+        <Component class="javax.swing.JButton" name="addExclirOuDeletarButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -222,7 +222,7 @@
             <Property name="text" type="java.lang.String" value="add ou excluir"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="adicionarButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addExclirOuDeletarButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

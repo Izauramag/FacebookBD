@@ -36,9 +36,9 @@ public class PostDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
+            JOptionPane.showMessageDialog(null,"Post salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao salvar post: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -91,9 +91,9 @@ public class PostDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
+            JOptionPane.showMessageDialog(null,"Post atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar post: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -111,9 +111,9 @@ public class PostDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
+            JOptionPane.showMessageDialog(null,"Post excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);      
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao excluir post: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }

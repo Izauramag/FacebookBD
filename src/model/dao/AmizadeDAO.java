@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.bean.Amizade;
+import model.bean.SolicAmizade;
 
 
 /**
@@ -34,10 +35,10 @@ public class AmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Amizade criada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao salvar: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao salvar amizade: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -84,10 +85,10 @@ public class AmizadeDAO {
             
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null,"Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Amizade excluida com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao excluir: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao excluir amizade: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -124,5 +125,32 @@ public class AmizadeDAO {
 //        
 //        return amizades; 
 //    }
+   
+   public static boolean checkAmizade(Amizade amizade){
+        Connection con = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean check = false;
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM tb_amizade WHERE id_amigo = ? AND id_user_logado = ?");
+            stmt.setInt(1, amizade.getId_amigo());
+            stmt.setInt(2, amizade.getId_user_logado());
+            
+            rs = stmt.executeQuery(); 
+            
+            if(rs.next()){
+                check = true; 
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check; 
+    }
     
 }
