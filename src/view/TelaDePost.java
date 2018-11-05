@@ -5,18 +5,28 @@
  */
 package view;
 
+import facebookbd.MemoriaLocal;
+import javax.swing.DefaultListModel;
+import model.bean.ComentarioPost;
+import model.bean.Post;
+import model.bean.Usuario;
+import model.dao.ComentarioPostDAO;
+import model.dao.PostDAO;
+
 /**
  *
  * @author icaro
  */
 public class TelaDePost extends javax.swing.JFrame {
+    Post post;
 
-    /**
-     * Creates new form TelaDePost
-     */
-    public TelaDePost() {
+    public TelaDePost(Post post) {
+        this.post = post;
         initComponents();
+        this.configurarComponentesDaTela();
     }
+    
+    DefaultListModel modeloDaListaDeComentarios;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,11 +41,12 @@ public class TelaDePost extends javax.swing.JFrame {
         voltarButton = new javax.swing.JButton();
         facebookLabel = new javax.swing.JLabel();
         postLabel = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        conteudoPostLabel = new javax.swing.JLabel();
+        espacoComentarTextfield = new javax.swing.JTextField();
         comentarButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        comentariosList = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,37 +71,45 @@ public class TelaDePost extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(298, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(facebookLabel)
-                .addGap(225, 225, 225)
+                .addGap(235, 235, 235)
                 .addComponent(voltarButton)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(voltarButton)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(27, 27, 27)
                 .addComponent(facebookLabel)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        postLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        postLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         postLabel.setText("POST");
 
-        jLabel3.setText("jLabel3");
-
-        jLabel4.setText("jLabel4");
-
-        jLabel5.setText("jLabel5");
+        conteudoPostLabel.setBackground(new java.awt.Color(255, 255, 255));
+        conteudoPostLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        conteudoPostLabel.setText("conteudo post");
 
         comentarButton.setBackground(new java.awt.Color(255, 255, 255));
         comentarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         comentarButton.setForeground(new java.awt.Color(70, 98, 158));
         comentarButton.setText("COMENTAR");
+        comentarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comentarButtonActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(comentariosList);
+
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jLabel2.setText("COMENTÁRIOS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,15 +119,15 @@ public class TelaDePost extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(postLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(espacoComentarTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(comentarButton))
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(postLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(conteudoPostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 754, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,16 +136,16 @@ public class TelaDePost extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(postLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(conteudoPostLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(espacoComentarTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comentarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(comentarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -137,6 +156,15 @@ public class TelaDePost extends javax.swing.JFrame {
         this.dispose();
         new Perfil().setVisible(true);
     }//GEN-LAST:event_voltarButtonActionPerformed
+
+    private void comentarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comentarButtonActionPerformed
+        // TODO add your handling code here:
+        ComentarioPost comentraioNoPost = new ComentarioPost(post.getId_post(), MemoriaLocal.usuarioLogado.getId_usuario(), "www.jpg.com", espacoComentarTextfield.getText());
+        ComentarioPostDAO.create(comentraioNoPost);
+        this.inserirComentraioNoPost(comentraioNoPost);
+        
+        espacoComentarTextfield.setText("");
+    }//GEN-LAST:event_comentarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,19 +196,42 @@ public class TelaDePost extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaDePost().setVisible(true);
+                new TelaDePost(null).setVisible(true);
             }
         });
     }
+    
+    private void configurarComponentesDaTela() {
+        this.conteudoPostLabel.setText(this.post.getConteudo());
+        this.configurarListaDeComentarios();
+    }
+    
+    private void configurarListaDeComentarios(){
+        modeloDaListaDeComentarios = new DefaultListModel();
+        comentariosList.setModel(modeloDaListaDeComentarios);
+
+        for (ComentarioPost comentarioPost : ComentarioPostDAO.read()){
+            if (comentarioPost.getId_post() != post.getId_post()){
+                continue;
+            }
+            this.inserirComentraioNoPost(comentarioPost);
+        }
+    }    
+    
+    public void inserirComentraioNoPost(ComentarioPost comentarioPost){
+        modeloDaListaDeComentarios.addElement(comentarioPost.getConteudo() + " - Comentário de: " + comentarioPost.getId_user_coment());
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton comentarButton;
+    private javax.swing.JList<String> comentariosList;
+    private javax.swing.JLabel conteudoPostLabel;
+    private javax.swing.JTextField espacoComentarTextfield;
     private javax.swing.JLabel facebookLabel;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel postLabel;
     private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables

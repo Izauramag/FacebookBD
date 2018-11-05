@@ -5,6 +5,7 @@
  */
 package facebookbd;
 
+import model.bean.Post;
 import model.bean.Usuario;
 
 /**
@@ -14,5 +15,6 @@ import model.bean.Usuario;
 public class MemoriaLocal {
     
     public static Usuario usuarioLogado;
+    public static Post postDoUsuarioLogado;
     
 }

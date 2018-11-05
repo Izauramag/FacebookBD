@@ -20,7 +20,7 @@ import model.bean.ComentarioPost;
  * @author icaro
  */
 public class ComentarioPostDAO {
-    public void create(ComentarioPost comentarioPost){
+    public static void create(ComentarioPost comentarioPost){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -44,7 +44,7 @@ public class ComentarioPostDAO {
         }
     }
     
-    public List<ComentarioPost> read(){
+    public static List<ComentarioPost> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -76,7 +76,7 @@ public class ComentarioPostDAO {
         return comentariosPost; 
     }
     
-    public void update(ComentarioPost comentarioPost){
+    public static void update(ComentarioPost comentarioPost){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -100,7 +100,7 @@ public class ComentarioPostDAO {
         }
     }
     
-    public void delete(ComentarioPost comentarioPost){
+    public static void delete(ComentarioPost comentarioPost){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;

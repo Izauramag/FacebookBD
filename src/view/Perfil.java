@@ -14,13 +14,13 @@ import model.bean.Amizade;
 import model.bean.Post;
 import model.bean.Usuario;
 import model.dao.AmizadeDAO;
-import model.dao.BloqueioAmizadeDAO;
 import model.dao.PostDAO;
 import model.dao.UsuarioDAO;
 
 
 public class Perfil extends javax.swing.JFrame {
     Map<Integer, Usuario> mapaDeUsuarios = new HashMap<>();
+    Map<Integer, Post> mapaDePosts = new HashMap<>();
 
     public Perfil() {
         initComponents();
@@ -192,8 +192,8 @@ public class Perfil extends javax.swing.JFrame {
                 .addComponent(cidadeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(criarPostLabel)
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(espacoCriarPostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(publicarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
@@ -236,11 +236,12 @@ public class Perfil extends javax.swing.JFrame {
 
     private void publicarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publicarButtonActionPerformed
         // TODO add your handling code here:
-//        PostDAO.create(post);
         
         Post postNoMural = new Post(MemoriaLocal.usuarioLogado.getId_usuario(), "img.jpg", espacoCriarPostTextField.getText(), '1');
         PostDAO.create(postNoMural);
         this.inserirPostsNaListaDeMural(postNoMural);
+        
+        espacoCriarPostTextField.setText("");
     }//GEN-LAST:event_publicarButtonActionPerformed
 
     /**
@@ -332,9 +333,12 @@ public class Perfil extends javax.swing.JFrame {
         modeloDaListaDePosts = new DefaultListModel();
         muralList.setModel(modeloDaListaDePosts);
 
+        int postsAdicionados = 0;
         for (Post post : PostDAO.read()){
-            if (post.getId_user_post() != MemoriaLocal.usuarioLogado.getId_usuario())
+            if (post.getId_user_post() != MemoriaLocal.usuarioLogado.getId_usuario()){
                 continue;
+            }
+            this.mapaDePosts.put(postsAdicionados++, post);
             this.inserirPostsNaListaDeMural(post);
         }
         
@@ -344,8 +348,10 @@ public class Perfil extends javax.swing.JFrame {
                 if (!event.getValueIsAdjusting()) {
                     JList source = (JList)event.getSource();
                     int indiceAtualDaLista = source.getSelectedIndex();
-                    Usuario usuarioDesteIndice = mapaDeUsuarios.get(indiceAtualDaLista);
-                    new TelaDePost().setVisible(true);
+                    Post postsDesteIndice = mapaDePosts.get(indiceAtualDaLista);
+                    
+                    new TelaDePost(postsDesteIndice).setVisible(true);
+                    
                     dispose();
                 }
             }

@@ -68,19 +68,4 @@ public class ComentarioPost {
         this.conteudo = conteudo;
     }
 		
-	
-	
-//métodos
-	
-    public void criarComentario(int id_comentario, int id_user_coment, int id_post, String conteudo) {
-		
-    }
-	
-    public void encontraComentario(int id_comentario) {
-		
-    }
-	
-    public void removeComentario(int id_comentario) {
-	
-    }
 }

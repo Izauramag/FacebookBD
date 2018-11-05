@@ -6,7 +6,12 @@
 package view;
 
 import facebookbd.MemoriaLocal;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import model.bean.Amizade;
 import model.bean.BloqueioAmizade;
 import model.bean.Post;
@@ -29,6 +34,8 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     private boolean existeSolicitacaoDeAmizade = false;
     private final BloqueioAmizade bloqueio;
     private final SolicAmizade solicitacaoDeAmizade;
+    
+    Map<Integer, Post> mapaDePosts = new HashMap<>();
     
     public PerfilDoUsuario(Usuario usuario) {
         initComponents();
@@ -162,6 +169,11 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         publicarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         publicarButton.setForeground(new java.awt.Color(70, 98, 158));
         publicarButton.setText("PUBLICAR");
+        publicarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                publicarButtonActionPerformed(evt);
+            }
+        });
 
         amigosLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         amigosLabel.setText("AMIGOS");
@@ -302,6 +314,10 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         this.existeSolicitacaoDeAmizade = !this.existeSolicitacaoDeAmizade;
         this.configurarBotaoDeAmizade();
     }//GEN-LAST:event_addExclirOuDeletarButtonActionPerformed
+
+    private void publicarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publicarButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_publicarButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -351,11 +367,30 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         modeloDaListaDePosts = new DefaultListModel();
         muralList.setModel(modeloDaListaDePosts);
         
+        int postsAdicionados = 0;
         for (Post post : PostDAO.read()){
             if (post.getId_user_post() != usuario.getId_usuario())
                 continue;
+            this.mapaDePosts.put(postsAdicionados++, post);
             this.modeloDaListaDePosts.addElement(post.getConteudo());
         }
+        
+        ListSelectionListener listener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    JList source = (JList)event.getSource();
+                    int indiceAtualDaLista = source.getSelectedIndex();
+                    Post postsDesteIndice = mapaDePosts.get(indiceAtualDaLista);
+                    
+                    new TelaDePost(postsDesteIndice).setVisible(true);
+                    
+                    dispose();
+                }
+            }
+        };
+        
+        this.muralList.addListSelectionListener(listener);
     }
     
     public void configurarBotaoDeBloqueio(){
@@ -371,6 +406,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
 
         addExclirOuDeletarButton.setText(this.existeSolicitacaoDeAmizade ? "EXCLUIR SOLICITAÇÃO" : "SOLICITAR AMIZADE");
     }
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
