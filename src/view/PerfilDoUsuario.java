@@ -23,6 +23,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     Usuario usuario;
     DefaultListModel modeloDaListaDePosts;
     private boolean existeBloqueio = false;
+    private boolean existeSolicitacaoDeAmizade = false;
     private final BloqueioAmizade bloqueio;
     private final SolicAmizade solicitacaoDeAmizade;
     
@@ -34,7 +35,9 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
 
         this.bloqueio = new BloqueioAmizade(meuId, idDoPerfilVisitado);
         this.solicitacaoDeAmizade = new SolicAmizade(meuId, idDoPerfilVisitado);
+ 
         this.existeBloqueio = BloqueioAmizadeDAO.checkBloqueio(bloqueio);
+        this.existeSolicitacaoDeAmizade = SolicAmizadeDAO.checkAmizade(solicitacaoDeAmizade);
 
         this.configurarComponentesDaTela();
     }
@@ -261,8 +264,14 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     
     private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
         // TODO add your handling code here:
-        SolicAmizade solicitacao = new SolicAmizade(MemoriaLocal.usuarioLogado.getId_usuario(), usuario.getId_usuario());
-        SolicAmizadeDAO.create(solicitacao);
+        if(this.existeSolicitacaoDeAmizade){
+            SolicAmizadeDAO.delete(solicitacaoDeAmizade);
+        }else{
+            SolicAmizadeDAO.create(solicitacaoDeAmizade);
+        }
+        
+        this.existeSolicitacaoDeAmizade = !this.existeSolicitacaoDeAmizade;
+        this.configurarBotaoDeAmizade();
     }//GEN-LAST:event_adicionarButtonActionPerformed
     
     /**
@@ -326,14 +335,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     }
     
     public void configurarBotaoDeAmizade(){
-        int id_user_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
-        int id_user_solicitado = usuario.getId_usuario();
-
-        if(SolicAmizadeDAO.checkAmizade(id_user_solicitante, id_user_solicitado)){
-            adicionarButton.setText("EXCLUIR");
-        }else{
-            adicionarButton.setText("ADICIONAR");
-        }
+        adicionarButton.setText(this.existeSolicitacaoDeAmizade ? "EXCLUIR SOLICITAÇÃO" : "SOLICITAR AMIZADE");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

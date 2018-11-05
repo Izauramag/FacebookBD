@@ -2,7 +2,6 @@
 package view;
 
 import javax.swing.JOptionPane;
-import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 
 
@@ -15,8 +14,6 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
 
-    Cadastro cadastro = new Cadastro();
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,7 +136,7 @@ public class Login extends javax.swing.JFrame {
 
     private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
         // TODO add your handling code here:
-        cadastro.setVisible(true);      
+        new Cadastro().setVisible(true);
     }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     private void botaoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEntrarActionPerformed

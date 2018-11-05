@@ -53,7 +53,7 @@ public class BloqueioAmizadeDAO {
         List<BloqueioAmizade> bloqueioAmizades = new ArrayList<>();
             
         try {
-            stmt = con.prepareStatement("SELECT * FROM tb_bloq_amizade");
+            stmt = con.prepareStatement("SELECT * FROM tb_bloqueio_amizade");
             rs = stmt.executeQuery(); 
             
             while(rs.next()){
@@ -65,7 +65,7 @@ public class BloqueioAmizadeDAO {
             }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

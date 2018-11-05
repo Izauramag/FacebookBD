@@ -24,11 +24,9 @@ public class Perfil extends javax.swing.JFrame {
     }
 
     Login login = new Login();
-    Usuarios usuarios = new Usuarios();
             
     DefaultListModel modeloDaListaDeAmigos;
     DefaultListModel modeloDaListaDePosts;
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -218,9 +216,7 @@ public class Perfil extends javax.swing.JFrame {
 
     private void usuariosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosButtonActionPerformed
         // TODO add your handling code here:
-        usuarios.setVisible(true);
-        
-        
+        new Usuarios().setVisible(true);
     }//GEN-LAST:event_usuariosButtonActionPerformed
 
     private void muralListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_muralListPropertyChange
@@ -294,7 +290,7 @@ public class Perfil extends javax.swing.JFrame {
         int usuariosAdicionados = 0;
         for (Usuario usuario: UsuarioDAO.read()) {
             this.mapaDeUsuarios.put(usuariosAdicionados++, usuario);
-            modeloDaListaDeAmigos.addElement(usuario.getNome()); 
+//            modeloDaListaDeAmigos.addElement(usuario.getNome()); 
         }
 
         // Logica para tratar toques e eventos em itens da lista.
