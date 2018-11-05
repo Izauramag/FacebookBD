@@ -21,7 +21,7 @@ import model.bean.Amizade;
  * @author Izaura
  */
 public class AmizadeDAO {
-    public void create(Amizade amizade){
+    public static void create(Amizade amizade){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -42,8 +42,8 @@ public class AmizadeDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    
-   public List<Amizade> read(){
+
+   public static List<Amizade> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -71,8 +71,8 @@ public class AmizadeDAO {
         
         return amizades; 
     }
-   
-   public void delete(Amizade amizade){
+
+   public static void delete(Amizade amizade){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -92,37 +92,37 @@ public class AmizadeDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-   
-   public List<Amizade> readForName(String nome){
-        Connection con = ConnectionFactory.getConnection();
 
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        List<Amizade> amizades = new ArrayList<>();
-            
-        try {
-            //procurando os amigos pelo nome deles
-            stmt = con.prepareStatement("SELECT * FROM tb_amizade WHERE nome LIKE ?");
-            stmt.setString(1, "%"+nome+"%");
-            
-            rs = stmt.executeQuery(); 
-            
-            while(rs.next()){
-                Amizade amizade = new Amizade();
-                
-                amizade.setId_amigo(rs.getInt("id_amigo"));
-                amizade.setId_user_logado(rs.getInt("id_user_logado")); 
-                amizades.add(amizade);    
-            }
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
-        }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        
-        return amizades; 
-    }
+//   public static List<Amizade> readForName(String nome){
+//        Connection con = ConnectionFactory.getConnection();
+//
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        
+//        List<Amizade> amizades = new ArrayList<>();
+//            
+//        try {
+//            //procurando os amigos pelo nome deles
+//            stmt = con.prepareStatement("SELECT * FROM tb_amizade WHERE nome LIKE ?");
+//            stmt.setString(1, "%"+nome+"%");
+//            
+//            rs = stmt.executeQuery(); 
+//            
+//            while(rs.next()){
+//                Amizade amizade = new Amizade();
+//                
+//                amizade.setId_amigo(rs.getInt("id_amigo"));
+//                amizade.setId_user_logado(rs.getInt("id_user_logado")); 
+//                amizades.add(amizade);    
+//            }
+//            
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+//        }finally{
+//            ConnectionFactory.closeConnection(con, stmt, rs);
+//        }
+//        
+//        return amizades; 
+//    }
     
 }

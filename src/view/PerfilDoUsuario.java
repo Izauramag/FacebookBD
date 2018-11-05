@@ -244,6 +244,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
         this.dispose();
+        new Perfil().setVisible(true);
     }//GEN-LAST:event_voltarButtonActionPerformed
     
     private void espacoPostTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoPostTextfieldActionPerformed

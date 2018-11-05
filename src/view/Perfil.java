@@ -2,13 +2,18 @@ package view;
 
 import facebookbd.MemoriaLocal;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import model.bean.Amizade;
 import model.bean.Post;
 import model.bean.Usuario;
+import model.dao.AmizadeDAO;
 import model.dao.BloqueioAmizadeDAO;
 import model.dao.PostDAO;
 import model.dao.UsuarioDAO;
@@ -217,6 +222,7 @@ public class Perfil extends javax.swing.JFrame {
     private void usuariosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosButtonActionPerformed
         // TODO add your handling code here:
         new Usuarios().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_usuariosButtonActionPerformed
 
     private void muralListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_muralListPropertyChange
@@ -286,11 +292,23 @@ public class Perfil extends javax.swing.JFrame {
     private void configurarListaDeAmigos() {
         modeloDaListaDeAmigos = new DefaultListModel();
         amigosList.setModel(modeloDaListaDeAmigos);
-        
+
+        Set<Integer> conjuntoIdsDeAmizades = new HashSet<>();
+
+        for (Amizade amizade : AmizadeDAO.read()) {
+            int id = amizade.getId_amigo();
+            if (id == MemoriaLocal.usuarioLogado.getId_usuario()) {
+                id = amizade.getId_user_logado();
+            }
+            conjuntoIdsDeAmizades.add(id);
+        }
+
         int usuariosAdicionados = 0;
         for (Usuario usuario: UsuarioDAO.read()) {
-            this.mapaDeUsuarios.put(usuariosAdicionados++, usuario);
-//            modeloDaListaDeAmigos.addElement(usuario.getNome()); 
+            if (conjuntoIdsDeAmizades.contains(usuario.getId_usuario())) {
+                this.mapaDeUsuarios.put(usuariosAdicionados++, usuario);
+                modeloDaListaDeAmigos.addElement(usuario.getNome()); 
+            }
         }
 
         // Logica para tratar toques e eventos em itens da lista.
@@ -302,6 +320,7 @@ public class Perfil extends javax.swing.JFrame {
                     int indiceAtualDaLista = source.getSelectedIndex();
                     Usuario usuarioDesteIndice = mapaDeUsuarios.get(indiceAtualDaLista);
                     new PerfilDoUsuario(usuarioDesteIndice).setVisible(true);
+                    dispose();
                 }
             }
         };

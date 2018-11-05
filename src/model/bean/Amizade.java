@@ -17,7 +17,14 @@ public class Amizade {
     
     
     //Gerando getters and setters
-    
+    public Amizade(int id_amigo, int id_user_logado) {
+        this.id_amigo = id_amigo;
+        this.id_user_logado = id_user_logado;
+    }
+
+    public Amizade() {
+    }
+
     public int getId_amigo() {
         return id_amigo;
     }

@@ -5,7 +5,10 @@
  */
 package view;
 
+import facebookbd.MemoriaLocal;
+import model.bean.Amizade;
 import model.bean.SolicAmizade;
+import model.dao.AmizadeDAO;
 import model.dao.SolicAmizadeDAO;
 
 /**
@@ -83,6 +86,11 @@ public class AceitarSolicitacaoDeAmizade extends javax.swing.JFrame {
         recusarButton.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         recusarButton.setForeground(new java.awt.Color(70, 98, 158));
         recusarButton.setText("ACEITAR SOLICITAÇÃO");
+        recusarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recusarButtonActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
@@ -123,12 +131,22 @@ public class AceitarSolicitacaoDeAmizade extends javax.swing.JFrame {
     private void vooltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vooltarButtonActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        new Perfil().setVisible(true);
     }//GEN-LAST:event_vooltarButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         SolicAmizadeDAO.delete(this.solicitacao);
         this.dispose();
+        new Perfil().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void recusarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recusarButtonActionPerformed
+        SolicAmizadeDAO.delete(this.solicitacao);
+        Amizade amizade = new Amizade(solicitacao.getId_user_solicitante(), MemoriaLocal.usuarioLogado.getId_usuario());
+        AmizadeDAO.create(amizade);
+        this.dispose();
+        new Perfil().setVisible(true);
+    }//GEN-LAST:event_recusarButtonActionPerformed
 
     /**
      * @param args the command line arguments

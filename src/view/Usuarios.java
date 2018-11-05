@@ -149,6 +149,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void sairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairButtonActionPerformed
         // TODO add your handling code here:
+        new Perfil().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_sairButtonActionPerformed
 
