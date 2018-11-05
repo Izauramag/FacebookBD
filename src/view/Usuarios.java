@@ -197,14 +197,14 @@ public class Usuarios extends javax.swing.JFrame {
     private void configurarListaDeUsuarios(){
         modeloDaListaDeUsuarios = new DefaultListModel();
         usuariosList.setModel(modeloDaListaDeUsuarios);
-        
+
         int usuariosAdicionados = 0;
         for (Usuario usuario: UsuarioDAO.read()) {
-            if (usuario.getId_usuario() == MemoriaLocal.usuarioLogado.getId_usuario())
-                continue;
+            if (usuarioSouEu(usuario) || estouBloqueadoPor(usuario)) continue;
+
             this.mapaDeUsuariosPorIndiceNaLista.put(usuariosAdicionados++, usuario);
             this.mapaDeUsuariosPorId.put(usuario.getId_usuario(), usuario);
-            modeloDaListaDeUsuarios.addElement(usuario.getNome()); 
+            this.modeloDaListaDeUsuarios.addElement(usuario.getNome()); 
         }
 
         // Logica para tratar toques e eventos em itens da lista.
@@ -263,6 +263,14 @@ public class Usuarios extends javax.swing.JFrame {
             Usuario usuarioBloqueadoParaInserirNaLista = mapaDeUsuariosPorId.get(bloqueio.getId_user_bloqueado());
             modeloDaListaDeBloqueio.addElement(usuarioBloqueadoParaInserirNaLista.getNome()); 
         }
+    }
+    
+    private boolean usuarioSouEu(Usuario usuario) {
+        return usuario.getId_usuario() == MemoriaLocal.usuarioLogado.getId_usuario();
+    }
+    
+    private boolean estouBloqueadoPor(Usuario usuario) {
+        return BloqueioAmizadeDAO.checkBloqueio(new BloqueioAmizade(usuario.getId_usuario(), MemoriaLocal.usuarioLogado.getId_usuario()));
     }
     
     

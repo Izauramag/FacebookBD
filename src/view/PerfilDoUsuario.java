@@ -260,6 +260,12 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         if (this.existeBloqueio) {
             BloqueioAmizadeDAO.delete(bloqueio);
         } else {
+            if (this.existeSolicitacaoDeAmizade) {
+                SolicAmizadeDAO.delete(solicitacaoDeAmizade);
+            }
+            if (existeAmizade()) {
+                deletarAmizade();
+            }
             BloqueioAmizadeDAO.create(bloqueio);
         }
         
@@ -270,6 +276,12 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     private boolean existeAmizade() {
         Amizade amizadeInversaASerChecada = new Amizade(amizadeASerChecada.getId_user_logado(), amizadeASerChecada.getId_amigo());
         return AmizadeDAO.checkAmizade(amizadeASerChecada) || AmizadeDAO.checkAmizade(amizadeInversaASerChecada);
+    }
+    
+    private void deletarAmizade() {
+        Amizade amizadeInversaASerChecada = new Amizade(amizadeASerChecada.getId_user_logado(), amizadeASerChecada.getId_amigo());
+        AmizadeDAO.delete(amizadeInversaASerChecada);
+        AmizadeDAO.delete(amizadeASerChecada);
     }
 
     private void addExclirOuDeletarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExclirOuDeletarButtonActionPerformed
