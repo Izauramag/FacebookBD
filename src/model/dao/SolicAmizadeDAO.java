@@ -92,18 +92,17 @@ public class SolicAmizadeDAO {
         }
     }
     
-    public static boolean checkAmizade(int id_solicitante, int id_solicitado){
+    public static boolean checkAmizade(int id_user_solicitante, int id_user_solicitado){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean check = false;
         
-            
         try {
-            stmt = con.prepareStatement("SELECT * FROM tb_solicit_amizade WHERE id_solicitante = ? AND id_solicitado = ?");
-            stmt.setInt(1, id_solicitante);
-            stmt.setInt(2, id_solicitado);
+            stmt = con.prepareStatement("SELECT * FROM tb_solicit_amizade WHERE id_user_solicitante = ? AND id_user_solicitado = ?");
+            stmt.setInt(1, id_user_solicitante);
+            stmt.setInt(2, id_user_solicitado);
             
             rs = stmt.executeQuery(); 
             

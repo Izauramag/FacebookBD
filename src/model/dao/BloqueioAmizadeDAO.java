@@ -72,7 +72,7 @@ public class BloqueioAmizadeDAO {
         
         return bloqueioAmizades; 
     }
-    
+
     public static void delete(BloqueioAmizade bloqueioAmizade){
         Connection con = ConnectionFactory.getConnection();
         
@@ -94,7 +94,7 @@ public class BloqueioAmizadeDAO {
         }
     }
     
-    public static boolean checkBloqueio(int id_solicitante, int id_solicitado){
+    public static boolean checkBloqueio(BloqueioAmizade bloqueioAmizade){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -102,9 +102,9 @@ public class BloqueioAmizadeDAO {
         boolean check = false; 
             
         try {
-            stmt = con.prepareStatement("SELECT * FROM tb_bloqueio_amizade WHERE id_solicitante = ? AND id_solicitado = ?");
-            stmt.setInt(1, id_solicitante);
-            stmt.setInt(2, id_solicitado);
+            stmt = con.prepareStatement("SELECT * FROM tb_bloqueio_amizade WHERE id_user_bloqueante = ? AND id_user_bloqueado = ?");
+            stmt.setInt(1, bloqueioAmizade.getId_user_bloqueante());
+            stmt.setInt(2, bloqueioAmizade.getId_user_bloqueado());
             
             rs = stmt.executeQuery(); 
             
@@ -113,7 +113,7 @@ public class BloqueioAmizadeDAO {
             }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

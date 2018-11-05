@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package view;
 
 import facebookbd.MemoriaLocal;
@@ -22,10 +22,20 @@ import model.dao.SolicAmizadeDAO;
 public class PerfilDoUsuario extends javax.swing.JFrame {
     Usuario usuario;
     DefaultListModel modeloDaListaDePosts;
+    private boolean existeBloqueio = false;
+    private final BloqueioAmizade bloqueio;
+    private final SolicAmizade solicitacaoDeAmizade;
     
     public PerfilDoUsuario(Usuario usuario) {
         initComponents();
         this.usuario = usuario;
+        int meuId = MemoriaLocal.usuarioLogado.getId_usuario();
+        int idDoPerfilVisitado = this.usuario.getId_usuario();
+
+        this.bloqueio = new BloqueioAmizade(meuId, idDoPerfilVisitado);
+        this.solicitacaoDeAmizade = new SolicAmizade(meuId, idDoPerfilVisitado);
+        this.existeBloqueio = BloqueioAmizadeDAO.checkBloqueio(bloqueio);
+
         this.configurarComponentesDaTela();
     }
     
@@ -228,29 +238,33 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_voltarButtonActionPerformed
-
+    
     private void espacoPostTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espacoPostTextfieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_espacoPostTextfieldActionPerformed
-
+    
     private void bloquearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloquearButtonActionPerformed
-        // TODO add your handling code here  
-        BloqueioAmizade bloqueio = new BloqueioAmizade(MemoriaLocal.usuarioLogado.getId_usuario(), usuario.getId_usuario());
-        BloqueioAmizadeDAO.create(bloqueio);
-            
+        // TODO add your handling code here
+        if (this.existeBloqueio) {
+            BloqueioAmizadeDAO.delete(bloqueio);
+        } else {
+            BloqueioAmizadeDAO.create(bloqueio);
+        }
         
+        this.existeBloqueio = !this.existeBloqueio;
+        this.configurarBotaoDeBloqueio();
     }//GEN-LAST:event_bloquearButtonActionPerformed
-
+    
     private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
         // TODO add your handling code here:
         SolicAmizade solicitacao = new SolicAmizade(MemoriaLocal.usuarioLogado.getId_usuario(), usuario.getId_usuario());
         SolicAmizadeDAO.create(solicitacao);
     }//GEN-LAST:event_adicionarButtonActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -258,8 +272,8 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -277,7 +291,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PerfilDoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -288,50 +302,40 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     
     private void configurarComponentesDaTela() {
         this.mensagemBoasVindasLabel.setText(this.usuario.getNome());
-        this.cidadeLabel.setText(this.usuario.getCidade());
-        
+        this.cidadeLabel.setText(this.usuario.getCidade());  
+
         this.configurarListaDePosts();
-        this.configurarBotaoDeAcordoComBloqueio();
-        this.configurarBotaoDeAcordoComSolicitacao();
+        this.configurarBotaoDeBloqueio();
+        this.configurarBotaoDeAmizade();
     }
-    
+
     private void configurarListaDePosts(){
         modeloDaListaDePosts = new DefaultListModel();
         muralList.setModel(modeloDaListaDePosts);
-
+        
         for (Post post : PostDAO.read()){
             if (post.getId_user_post() != usuario.getId_usuario())
                 continue;
-            this.inserirPostsNaListaDeMural(post);
-        }
-    }
-     
-    public void inserirPostsNaListaDeMural(Post post){
-        modeloDaListaDePosts.addElement(post.getConteudo());
-    }
-    
-    public void configurarBotaoDeAcordoComBloqueio(){
-        int id_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
-        int id_solicitado = usuario.getId_usuario();
-       
-        if(BloqueioAmizadeDAO.checkBloqueio(id_solicitante, id_solicitado)){
-            bloquearButton.setText("BLOQUEAR");
-        }else{
-            bloquearButton.setText("DESBLOQUEAR");
+            this.modeloDaListaDePosts.addElement(post.getConteudo());
         }
     }
     
-    public void configurarBotaoDeAcordoComSolicitacao(){
-        int id_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
-        int id_solicitado = usuario.getId_usuario();
-       
-        if(SolicAmizadeDAO.checkAmizade(id_solicitante, id_solicitado)){
-            adicionarButton.setText("ADICIONAR");
-        }else{
-            adicionarButton.setText("EXCLUIR");
-        }
+    public void configurarBotaoDeBloqueio(){
+        bloquearButton.setText(this.existeBloqueio ? "DESBLOQUEAR" : "BLOQUEAR");
+        this.adicionarButton.setVisible(!existeBloqueio);
     }
+    
+    public void configurarBotaoDeAmizade(){
+        int id_user_solicitante = MemoriaLocal.usuarioLogado.getId_usuario();
+        int id_user_solicitado = usuario.getId_usuario();
 
+        if(SolicAmizadeDAO.checkAmizade(id_user_solicitante, id_user_solicitado)){
+            adicionarButton.setText("EXCLUIR");
+        }else{
+            adicionarButton.setText("ADICIONAR");
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarButton;
     private javax.swing.JLabel amigosLabel;
