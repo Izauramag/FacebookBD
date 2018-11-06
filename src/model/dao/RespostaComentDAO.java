@@ -21,7 +21,7 @@ import model.bean.RespostaComent;
  */
 public class RespostaComentDAO {
     
-    public void create(RespostaComent respostaComent){
+    public static void create(RespostaComent respostaComent){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -45,7 +45,7 @@ public class RespostaComentDAO {
         }
     }
     
-    public List<RespostaComent> read(){
+    public static List<RespostaComent> read(){
         Connection con = ConnectionFactory.getConnection();
 
         PreparedStatement stmt = null;
@@ -62,14 +62,14 @@ public class RespostaComentDAO {
                 
                 respostaComent.setId_resposta(rs.getInt("id_resposta"));
                 respostaComent.setId_comentario(rs.getInt("id_comentario"));
-                respostaComent.setId_user_resp(rs.getInt("id_user_respo"));
+                respostaComent.setId_user_resp(rs.getInt("id_user_resp"));
                 respostaComent.setImagem(rs.getString("imagem"));
                 respostaComent.setConteudo(rs.getString("conteudo"));
                 respostasComents.add(respostaComent);    
             }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Deu merda", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,ex.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -77,7 +77,7 @@ public class RespostaComentDAO {
         return respostasComents; 
     }
     
-    public void update(RespostaComent respostaComent){
+    public static void update(RespostaComent respostaComent){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;
@@ -107,7 +107,7 @@ public class RespostaComentDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    public void delete(RespostaComent respostaComent){
+    public static void delete(RespostaComent respostaComent){
         Connection con = ConnectionFactory.getConnection();
         
         PreparedStatement stmt = null;

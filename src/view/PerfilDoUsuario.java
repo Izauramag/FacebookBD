@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionListener;
 import model.bean.Amizade;
 import model.bean.BloqueioAmizade;
 import model.bean.Post;
+import model.bean.PostUsuario;
 import model.bean.SolicAmizade;
 import model.bean.Usuario;
 import model.dao.AmizadeDAO;
@@ -28,6 +29,7 @@ import model.dao.SolicAmizadeDAO;
  */
 public class PerfilDoUsuario extends javax.swing.JFrame {
     Usuario usuario;
+    PostUsuario postUsuario;
     Amizade amizadeASerChecada;
     DefaultListModel modeloDaListaDePosts;
     private boolean existeBloqueio = false;
@@ -316,7 +318,12 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_addExclirOuDeletarButtonActionPerformed
 
     private void publicarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publicarButtonActionPerformed
-        // TODO add your handling code here:
+        String texto = this.espacoPostTextfield.getText();
+        Post post = new Post(usuario.getId_usuario(), "", texto, '1');
+        this.modeloDaListaDePosts.addElement(texto);
+        PostDAO.create(post);
+        
+        espacoPostTextfield.setText("");
     }//GEN-LAST:event_publicarButtonActionPerformed
     
     /**
@@ -383,7 +390,7 @@ public class PerfilDoUsuario extends javax.swing.JFrame {
                     int indiceAtualDaLista = source.getSelectedIndex();
                     Post postsDesteIndice = mapaDePosts.get(indiceAtualDaLista);
                     
-                    new TelaDePost(postsDesteIndice).setVisible(true);
+                    new TelaDoPost(postsDesteIndice).setVisible(true);
                     
                     dispose();
                 }

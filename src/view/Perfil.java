@@ -350,7 +350,7 @@ public class Perfil extends javax.swing.JFrame {
                     int indiceAtualDaLista = source.getSelectedIndex();
                     Post postsDesteIndice = mapaDePosts.get(indiceAtualDaLista);
                     
-                    new TelaDePost(postsDesteIndice).setVisible(true);
+                    new TelaDoPost(postsDesteIndice).setVisible(true);
                     
                     dispose();
                 }

@@ -17,11 +17,18 @@ public class RespostaComent {
     private int id_user_resp;
     private String imagem;
     private String conteudo;
+
+    public RespostaComent() {
+    }
+
+    public RespostaComent(int id_comentario, int id_user_resp, String imagem, String conteudo) {
+        this.id_comentario = id_comentario;
+        this.id_user_resp = id_user_resp;
+        this.imagem = imagem;
+        this.conteudo = conteudo;
+    }
     
-    
-    //Gerando getters and setters
-    
-    
+//Gerando getters and setters
     public int getId_resposta() {
         return id_resposta;
     }

@@ -6,7 +6,12 @@
 package view;
 
 import facebookbd.MemoriaLocal;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import model.bean.ComentarioPost;
 import model.bean.Post;
 import model.bean.Usuario;
@@ -17,10 +22,11 @@ import model.dao.PostDAO;
  *
  * @author icaro
  */
-public class TelaDePost extends javax.swing.JFrame {
+public class TelaDoPost extends javax.swing.JFrame {
     Post post;
-
-    public TelaDePost(Post post) {
+    Map<Integer, ComentarioPost> mapaDeComentarios = new HashMap<>();
+    
+    public TelaDoPost(Post post) {
         this.post = post;
         initComponents();
         this.configurarComponentesDaTela();
@@ -183,20 +189,21 @@ public class TelaDePost extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaDePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDoPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaDePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDoPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaDePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDoPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaDePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDoPost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaDePost(null).setVisible(true);
+                new TelaDoPost(null).setVisible(true);
             }
         });
     }
@@ -209,14 +216,34 @@ public class TelaDePost extends javax.swing.JFrame {
     private void configurarListaDeComentarios(){
         modeloDaListaDeComentarios = new DefaultListModel();
         comentariosList.setModel(modeloDaListaDeComentarios);
-
+        
+        int comentariosAdicionados = 0;
         for (ComentarioPost comentarioPost : ComentarioPostDAO.read()){
             if (comentarioPost.getId_post() != post.getId_post()){
                 continue;
             }
+            this.mapaDeComentarios.put(comentariosAdicionados++, comentarioPost);
             this.inserirComentraioNoPost(comentarioPost);
         }
-    }    
+        
+        ListSelectionListener listener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    JList source = (JList)event.getSource();
+                    int indiceAtualDaLista = source.getSelectedIndex();
+                    ComentarioPost comentariosDesteIndice = mapaDeComentarios.get(indiceAtualDaLista);
+                    
+                    new TelaDoComentario(comentariosDesteIndice).setVisible(true);
+                    
+                    dispose();
+                }
+            }
+        };
+
+        this.comentariosList.addListSelectionListener(listener);
+    }   
+    
     
     public void inserirComentraioNoPost(ComentarioPost comentarioPost){
         modeloDaListaDeComentarios.addElement(comentarioPost.getConteudo() + " - Comentário de: " + comentarioPost.getId_user_coment());

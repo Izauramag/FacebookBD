@@ -13,6 +13,15 @@ public class PostUsuario {
     
     private int id_post;
     private int id_user_post;
+
+    public PostUsuario(int id_post, int id_user_post) {
+        this.id_post = id_post;
+        this.id_user_post = id_user_post;
+    }
+
+    public PostUsuario() {
+       
+    }
     
     //Gerando getters and setters
     
